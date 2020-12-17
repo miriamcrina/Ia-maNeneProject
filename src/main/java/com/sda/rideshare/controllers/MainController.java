@@ -15,4 +15,10 @@ public class MainController {
         ModelAndView modelAndView = new ModelAndView("front-page");
         return modelAndView;
     }
+
+    @GetMapping("/main")
+    public ModelAndView getMainPage () {
+        ModelAndView modelAndView = new ModelAndView("main-page");
+        return modelAndView;
+    }
 }

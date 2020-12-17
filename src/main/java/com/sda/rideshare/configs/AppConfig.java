@@ -6,6 +6,6 @@ import org.springframework.context.annotation.Import;
 
 @SpringBootApplication
 @ComponentScan("com.sda.rideshare")
-@Import({DatabaseConfig.class})
+@Import({DatabaseConfig.class, DateTimeConfig.class, WebSecurityConfig.class})
 public class AppConfig {
 }

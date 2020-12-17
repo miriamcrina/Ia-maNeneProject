@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<!--<div th:if = "${errorMessage}">-->
+<!--    <span th:text="${errorMessage}"></span>-->
+
+<form method="post" action="/login-submit">
+    <label for="username">Nume utilizator</label>
+    <input type="text" id ="username" name="username">
+    <br>
+    <br>
+    <label for="password">Parola</label>
+    <input type="password" id="password" name="password" >
+    <br>
+    <br>
+
+    <input type="submit" value="Login">
+
+</form>
+
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Cursa ta </h1>
+<h3> Detalii </h3>
+
+<form method="post" action="/rides/save" th:object="${ride}">
+
+    <input type="hidden" id = "id" name ="id" th:field ="*{rideId}">
+
+    <label for="departureCity">Orasul de plecare</label>
+    <input type="text" id="departureCity" name="departureCity"  th:field="*{departureAddress}">
+    <br>
+    <br>
+    <label for="departureStreet">Strada si numarul</label>
+    <input type="text" id="departureStreet" name="departureStreet"  th:field="*{departureAddress}">
+    <br>
+    <br>
+
+    <label for="arrivalCity">Orasul de sosire</label>
+    <input type="text" id="arrivalCity" name="arrivalCity" th:field="*{arrivalAddress}">
+    <br>
+    <br>
+
+    <label for="arrivalStreet">Strada si numarul</label>
+    <input type="text" id="arrivalStreet" name="arrivalStreet"  th:field="*{arrivalAddress}">
+    <br>
+    <br>
+
+
+    <label for="departureDateAndTime">Ora de plecare</label>
+    <input type="datetime-local" id="departureDateAndTime" name="departureDateAndTime"  th:field="*{departureDateAndTime}">
+    <br>
+    <br>
+
+
+    <label for="arrivalDateAndTime">Ora de sosire estimata</label>
+    <input type="datetime-local" id="arrivalDateAndTime" name="arrivalDateAndTime" th:field="*{arrivalDateAndTime}">
+    <br>
+    <br>
+
+
+    <label for="passengerNumber">Numarul de pasageri</label>
+    <input type="number" id="passengerNumber" name="passengerNumber"  th:field="*{passengerNumber}">
+    <br>
+    <br>
+
+
+    <button type="submit" >Creeaza cursa</button>
+</form>
+
+</body>
+</html>

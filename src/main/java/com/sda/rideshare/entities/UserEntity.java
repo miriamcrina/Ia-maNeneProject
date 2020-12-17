@@ -1,8 +1,11 @@
 package com.sda.rideshare.entities;
 
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -16,9 +19,13 @@ public class UserEntity {
     private String email;
     private String surname;
     private String name;
-    private LocalDate dateOfBirth;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private Date dateOfBirth;
+
     private String password;
     private String phoneNumber;
+    private String username;
     private Boolean enabled;
 
     @OneToMany(mappedBy = "user")
@@ -33,6 +40,14 @@ public class UserEntity {
 
 
     public UserEntity() {
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public List<CarEntity> getCars() {
@@ -99,11 +114,11 @@ public class UserEntity {
         this.name = name;
     }
 
-    public LocalDate getDateOfBirth() {
+    public Date getDateOfBirth() {
         return dateOfBirth;
     }
 
-    public void setDateOfBirth(LocalDate dateOfBirth) {
+    public void setDateOfBirth(Date dateOfBirth) {
         this.dateOfBirth = dateOfBirth;
     }
 

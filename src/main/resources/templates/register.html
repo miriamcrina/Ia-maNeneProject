@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<h1 style="text-align: center"> Ia-ma, nene, prin Romania!</h1>
+<h3 style="text-align: center"> Formular de inregistrare </h3>
+
+<form method="post" action="/register" th:object="${user}">
+
+    <input type="hidden" id = "id" name ="id" th:field ="*{userId}">
+
+    <label for="email">E-mail</label>
+    <input type="email" id="email" name="email" th:readonly="${editMode}" th:field="*{email}">
+    <br>
+    <br>
+
+    <label for="name">Prenume</label>
+    <input type="text" id="name" name="name"  th:readonly="${editMode}" th:field="*{name}">
+    <br>
+    <br>
+
+    <label for="surname">Nume</label>
+    <input type="text" id="surname" name="surname"  th:readonly="${editMode}" th:field="*{surname}">
+    <br>
+    <br>
+
+
+    <label for="dateOfBirth">Data nasterii</label>
+    <input type="date" id="dateOfBirth" name="dateOfBirth"  th:readonly="${editMode}" th:field="*{dateOfBirth}">
+    <br>
+    <br>
+
+
+    <label for="phoneNumber">Numar de telefon</label>
+    <input type="number" id="phoneNumber" name="phoneNumber"  th:readonly="${editMode}" th:field="*{phoneNumber}">
+    <br>
+    <br>
+
+
+    <label for="username">Nume de utilizator</label>
+    <input type="text" id="username" name="username"  th:field="*{username}">
+    <br>
+    <br>
+
+
+    <label for="password">Parola</label>
+    <input type="password" id="password" name="password" placeholder="Seteaza parola"  th:field="*{password}">
+    <br>
+    <br>
+    <button type="submit" >Creeaza cont</button>
+
+</form>
+</body>
+</html>
