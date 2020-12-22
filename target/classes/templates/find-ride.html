@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Gaseste o cursa </h1>
+
+<form method="get" action="/find-ride">
+    <label for="departureCity">Orasul de plecare</label>
+    <input type="text" id="departureCity" name="departureCity" >
+    <br>
+    <br>
+
+    <label for="arrivalCity"> Orasul de sosire</label>
+    <input type="text" id="arrivalCity" name="arrivalCity">
+    <br>
+    <br>
+
+    <label for="departureDateAndTime">Data de plecare</label>
+    <input type="date" id="departureDateAndTime" name="departureDateAndTime">
+    <br>
+    <br>
+
+    <input type="submit" value="Cauta">
+</form>
+</body>
+</html>
+
