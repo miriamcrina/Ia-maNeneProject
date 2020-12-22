@@ -7,21 +7,31 @@ import javax.persistence.*;
 public class AuthorityEntity {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer authorityId;
     @Column(length = 50)
-    private Integer userId;
-
+    private String username;
+    @Column(length = 50)
     private String authority;
 
     @ManyToOne
-    @JoinColumn(name = "userId", insertable = false, updatable = false)
+    @JoinColumn(name = "userId")
     private UserEntity user;
 
-    public Integer getUserId() {
-        return userId;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUserId(Integer userId) {
-        this.userId = userId;
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public Integer getAuthorityId() {
+        return authorityId;
+    }
+
+    public void setAuthorityId(Integer userId) {
+        this.authorityId = userId;
     }
 
     public String getAuthority() {

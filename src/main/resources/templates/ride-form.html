@@ -8,38 +8,43 @@
 <h1> Cursa ta </h1>
 <h3> Detalii </h3>
 
-<form method="post" action="/rides/save" th:object="${ride}">
+<form method="post" action="/rides/save" th:object="${modelRide}">
 
-    <input type="hidden" id = "id" name ="id" th:field ="*{rideId}">
+    <input type="hidden" id = "id" name ="id" th:field ="*{modelRideId}">
 
     <label for="departureCity">Orasul de plecare</label>
-    <input type="text" id="departureCity" name="departureCity"  th:field="*{departureAddress}">
+    <input type="text" id="departureCity" name="departureCity"  th:field="*{departureCity}">
     <br>
     <br>
     <label for="departureStreet">Strada si numarul</label>
-    <input type="text" id="departureStreet" name="departureStreet"  th:field="*{departureAddress}">
+    <input type="text" id="departureStreet" name="departureStreet"  th:field="*{departureStreetAndNumber}">
     <br>
     <br>
 
     <label for="arrivalCity">Orasul de sosire</label>
-    <input type="text" id="arrivalCity" name="arrivalCity" th:field="*{arrivalAddress}">
+    <input type="text" id="arrivalCity" name="arrivalCity" th:field="*{arrivalCity}">
     <br>
     <br>
 
     <label for="arrivalStreet">Strada si numarul</label>
-    <input type="text" id="arrivalStreet" name="arrivalStreet"  th:field="*{arrivalAddress}">
+    <input type="text" id="arrivalStreet" name="arrivalStreet"  th:field="*{arrivalStreetAndNumber}">
     <br>
     <br>
 
 
-    <label for="departureDateAndTime">Ora de plecare</label>
-    <input type="datetime-local" id="departureDateAndTime" name="departureDateAndTime"  th:field="*{departureDateAndTime}">
+    <label for="departureDate">Data </label>
+    <input type="date" id="departureDate" name="departureDate"  th:field="*{departureDate}">
+    <br>
+    <br>
+
+    <label for="departureTime">Ora de plecare </label>
+    <input type="time" id="departureTime" name="departureTime"  th:field="*{departureTime}">
     <br>
     <br>
 
 
-    <label for="arrivalDateAndTime">Ora de sosire estimata</label>
-    <input type="datetime-local" id="arrivalDateAndTime" name="arrivalDateAndTime" th:field="*{arrivalDateAndTime}">
+    <label for="arrivalTime">Ora de sosire estimata</label>
+    <input type="time" id="arrivalTime" name="arrivalTime" th:field="*{arrivalTime}">
     <br>
     <br>
 

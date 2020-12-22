@@ -24,6 +24,11 @@ public class AddressEntity {
     public AddressEntity() {
     }
 
+    public AddressEntity(String city, String streetAndNumber) {
+        this.city = city;
+        this.streetAndNumber = streetAndNumber;
+    }
+
     public RideEntity getRideBeginning() {
         return rideBeginning;
     }

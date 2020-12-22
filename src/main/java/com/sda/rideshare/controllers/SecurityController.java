@@ -8,8 +8,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
-import org.springframework.validation.BindingResult;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -18,10 +19,8 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import javax.validation.Valid;
-import java.util.Optional;
 
-@RestController
+@Controller
 public class SecurityController {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityController.class);
@@ -31,6 +30,9 @@ public class SecurityController {
 
     @Autowired
     private AuthorityRepository authorityRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
 
     @GetMapping("/register")
@@ -59,12 +61,14 @@ public class SecurityController {
 //        } else {
             userEntity.setEnabled(true);
 //            userEntity.setPassword(userEntity.getPassword());
-////            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
+            userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
 //        }
+
         userEntity = userRepository.save(userEntity);
         if (null == userEntity.getAuthorities()) {
             AuthorityEntity authorityEntity = new AuthorityEntity();
-            authorityEntity.setUserId(userEntity.getUserId());
+            authorityEntity.setUser(userEntity);
+            authorityEntity.setUsername(userEntity.getUsername());
             authorityEntity.setAuthority("USER");
             authorityRepository.save(authorityEntity);
         }
@@ -74,22 +78,22 @@ public class SecurityController {
 
     @GetMapping("/login")
     public ModelAndView getLogin() {
-        ModelAndView modelAndView = new ModelAndView("login");
+        ModelAndView modelAndView = new ModelAndView("/login");
         return modelAndView;
     }
 
-//    @GetMapping("/login-error")
-//    public ModelAndView loginError(HttpServletRequest request) {
-//        HttpSession session = request.getSession();
-//        ModelAndView modelAndView = new ModelAndView("login");
-//        String errorMessage = null;
-//        if (session != null) {
-//            Object object = session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
-//            if (object instanceof BadCredentialsException) {
-//                errorMessage = "Wrong username or password";
-//            }
-//        }
-//        modelAndView.addObject("errorMessage", errorMessage);
-//        return modelAndView;
-//    }
+    @GetMapping("/login-error")
+    public ModelAndView loginError(HttpServletRequest request) {
+        HttpSession session = request.getSession();
+        ModelAndView modelAndView = new ModelAndView("login");
+        String errorMessage = null;
+        if (session != null) {
+            Object object = session.getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION);
+            if (object instanceof BadCredentialsException) {
+                errorMessage = "Wrong username or password";
+            }
+        }
+        modelAndView.addObject("errorMessage", errorMessage);
+        return modelAndView;
+    }
 }
