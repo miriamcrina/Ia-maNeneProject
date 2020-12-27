@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table>
+    <tr>
+        <th>  Nr. Crt.</th>
+        <th > Orasul de plecare</th>
+        <th > Orasul de sosire</th>
+        <th > Data </th>
+    </tr>
+
+    <tr th:each = " ride : ${historyList}">
+        <td th:text ="${ride.getRideId()}"></td>
+        <td th:text ="${ride.getDepartureAddress().getCity()}"></td>
+        <td th:text ="${ride.getArrivalAddress().getCity()}"></td>
+        <td th:text ="${ride.getDepartureDate()}"></td>
+
+        <td>
+<!--            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>-->
+<!--            <a th:href ="@{'/delete-car/' + ${ride.getRideId()}}"> Sterge cursa </a>-->
+        </td>
+    </tr>
+</table>
+
+<a  href="/add-car"> Adauga o masina</a>
+<br>
+</body>
+</html>

@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+
+<form method="post" action="/car-save" th:object="${car}">
+
+    <input type="hidden" id = "id" name ="id" th:field ="*{carId}">
+
+    <label for="carMake">Marca masina</label>
+    <input type="text" id="carMake" name="carMake" th:field="*{carMake}">
+    <br>
+    <br>
+
+    <label for="carModel">Model</label>
+    <input type="text" id="carModel" name="carModel"  th:field="*{carModel}">
+    <br>
+    <br>
+
+    <label for="plateNumber">Nr de inmatriculare</label>
+    <input type="text" id="plateNumber" name="plateNumber"  th:field="*{plateNumber}">
+    <br>
+    <br>
+
+    <input type="submit" value="Salveaza" >
+
+</form>
+
+</body>
+</html>

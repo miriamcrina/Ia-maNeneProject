@@ -1,10 +1,11 @@
 package com.sda.rideshare.entities;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
 @Table(name = "addresses")
-public class AddressEntity {
+public class AddressEntity implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -22,11 +23,6 @@ public class AddressEntity {
 
 
     public AddressEntity() {
-    }
-
-    public AddressEntity(String city, String streetAndNumber) {
-        this.city = city;
-        this.streetAndNumber = streetAndNumber;
     }
 
     public RideEntity getRideBeginning() {
@@ -69,4 +65,14 @@ public class AddressEntity {
         this.streetAndNumber = street;
     }
 
+    @Override
+    public String toString() {
+        return "AddressEntity{" +
+                "addressId=" + addressId +
+                ", city='" + city + '\'' +
+                ", streetAndNumber='" + streetAndNumber + '\'' +
+                ", rideBeginning=" + rideBeginning +
+                ", rideEnd=" + rideEnd +
+                '}';
+    }
 }
