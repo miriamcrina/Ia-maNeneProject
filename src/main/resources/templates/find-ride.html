@@ -7,19 +7,19 @@
 <body>
 <h1> Gaseste o cursa </h1>
 
-<form method="get" action="/find-ride">
+<form method="get" th:action="@{/found-rides}">
     <label for="departureCity">Orasul de plecare</label>
-    <input type="text" id="departureCity" name="departureCity" >
+    <input type="text" id="departureCity" th:name="departureCity" >
     <br>
     <br>
 
     <label for="arrivalCity"> Orasul de sosire</label>
-    <input type="text" id="arrivalCity" name="arrivalCity">
+    <input type="text" id="arrivalCity" th:name="arrivalCity">
     <br>
     <br>
 
-    <label for="departureDateAndTime">Data de plecare</label>
-    <input type="date" id="departureDateAndTime" name="departureDateAndTime">
+    <label for="departureDate">Data de plecare</label>
+    <input type="date" id="departureDate" th:name="departureDate">
     <br>
     <br>
 

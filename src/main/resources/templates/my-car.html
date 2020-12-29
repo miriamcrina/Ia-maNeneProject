@@ -14,7 +14,7 @@
         <th > Nr. de inmatriculare</th>
     </tr>
 
-    <tr th:each = " car : ${carList}">
+    <tr th:each = " car : ${user.getCars()}">
         <td th:text ="${car.getCarId()}"></td>
         <td th:text ="${car.getCarMake()}"></td>
         <td th:text ="${car.getCarModel()}"></td>

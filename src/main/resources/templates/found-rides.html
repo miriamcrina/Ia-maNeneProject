@@ -1,0 +1,31 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Cursele gasite </h1>
+<table>
+    <tr>
+        <th>  Orasul de plecare.</th>
+        <th > Orasul de sosire</th>
+        <th > Data</th>
+        <th > Ora de plecare</th>
+    </tr>
+
+    <tr th:each = "model: ${foundRides}">
+        <td th:text ="${model.getDepartureCity()}"></td>
+        <td th:text ="${model.getArrivalCity()}"></td>
+        <td th:text ="${model.getDepartureDate()}"></td>
+        <td th:text ="${model.getDepartureTime()}"></td>
+
+        <td>
+<!--            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>-->
+<!--            <a th:href ="@{'/delete-car/' + ${car.getCarId()}}"> Sterge masina </a>-->
+        </td>
+    </tr>
+</table>
+
+<br>
+</body>
+</html>

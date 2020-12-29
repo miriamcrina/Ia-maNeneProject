@@ -15,6 +15,12 @@ public class RideEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rideId;
 
+    private String departureCity;
+    private String departureStreetAndNumber;
+    private String arrivalCity;
+    private String arrivalStreetAndNumber;
+
+
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate departureDate;
 
@@ -30,15 +36,47 @@ public class RideEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToOne
-    @JoinColumn(name = "cityDeparture", referencedColumnName = "city")
-    private AddressEntity departureAddress;
-
-    @OneToOne
-    @JoinColumn(name = "cityArrival", referencedColumnName = "city")
-    private AddressEntity arrivalAddress;
+//    @OneToOne
+//    @JoinColumn(name = "cityDeparture", referencedColumnName = "city")
+//    private AddressEntity departureAddress;
+//
+//    @OneToOne
+//    @JoinColumn(name = "cityArrival", referencedColumnName = "city")
+//    private AddressEntity arrivalAddress;
 
      public RideEntity() {
+    }
+
+    public String getDepartureCity() {
+        return departureCity;
+    }
+
+    public void setDepartureCity(String departureCity) {
+        this.departureCity = departureCity;
+    }
+
+    public String getDepartureStreetAndNumber() {
+        return departureStreetAndNumber;
+    }
+
+    public void setDepartureStreetAndNumber(String departureStreetAndNumber) {
+        this.departureStreetAndNumber = departureStreetAndNumber;
+    }
+
+    public String getArrivalCity() {
+        return arrivalCity;
+    }
+
+    public void setArrivalCity(String arrivalCity) {
+        this.arrivalCity = arrivalCity;
+    }
+
+    public String getArrivalStreetAndNumber() {
+        return arrivalStreetAndNumber;
+    }
+
+    public void setArrivalStreetAndNumber(String arrivalStreetAndNumber) {
+        this.arrivalStreetAndNumber = arrivalStreetAndNumber;
     }
 
     public Integer getRideId() {
@@ -89,19 +127,4 @@ public class RideEntity {
         this.user = user;
     }
 
-    public AddressEntity getDepartureAddress() {
-        return departureAddress;
-    }
-
-    public void setDepartureAddress(AddressEntity departureAddress) {
-        this.departureAddress = departureAddress;
-    }
-
-    public AddressEntity getArrivalAddress() {
-        return arrivalAddress;
-    }
-
-    public void setArrivalAddress(AddressEntity arrivalAddress) {
-        this.arrivalAddress = arrivalAddress;
-    }
 }

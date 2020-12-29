@@ -24,7 +24,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/main/*", "/login-submit", "/login-error","/css/*","/img/*", "/my-car/*","/add-car","/delete-car","/view-rides", "/delete-ride/*")
+                .antMatchers("/","/login", "/register", "/main/*", "/login-submit", "/login-error","/css/*","/img/*", "/my-car/*","/add-car","/delete-car","/my-rides/*", "/delete-ride/*")
                 .permitAll();
         http.authorizeRequests()
                 .antMatchers()

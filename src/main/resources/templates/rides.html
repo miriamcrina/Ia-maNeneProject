@@ -7,26 +7,26 @@
 <body>
 <table>
     <tr>
-        <th>  Nr. Crt.</th>
+        <!--        <th>  Nr. Crt.</th>-->
         <th > Orasul de plecare</th>
         <th > Orasul de sosire</th>
         <th > Data </th>
     </tr>
 
-    <tr th:each = " ride : ${historyList}">
-        <td th:text ="${ride.getRideId()}"></td>
-        <td th:text ="${ride.getDepartureAddress().getCity()}"></td>
-        <td th:text ="${ride.getArrivalAddress().getCity()}"></td>
+    <tr th:each = " ride : ${user.getRides()}">
+        <!--        <td th:text ="${ride.getRideId()}"></td> -->
+        <!--        cum sa fac sa imi faca o incrementare pe pagina a numerelor, nu direct din baza de date???-->
+        <td th:text ="${ride.getDepartureCity()}"></td>
+        <td th:text ="${ride.getArrivalCity()}"></td>
         <td th:text ="${ride.getDepartureDate()}"></td>
 
-        <td>
-<!--            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>-->
-<!--            <a th:href ="@{'/delete-car/' + ${ride.getRideId()}}"> Sterge cursa </a>-->
-        </td>
+        <!--        <td>-->
+        <!--&lt;!&ndash;            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>&ndash;&gt;-->
+        <!--&lt;!&ndash;            <a th:href ="@{'/delete-car/' + ${ride.getRideId()}}"> Sterge cursa </a>&ndash;&gt;-->
+        <!--        </td>-->
     </tr>
 </table>
 
-<a  href="/add-car"> Adauga o masina</a>
 <br>
 </body>
 </html>

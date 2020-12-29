@@ -61,7 +61,15 @@ public class CarController extends BaseController{
     @GetMapping("/my-car")
     public ModelAndView getCars() {
         ModelAndView modelAndView = new ModelAndView("my-car");
-        modelAndView.addObject("carList", carRepository.findAll());
+
+        Optional<User> user = getLoggedInUser();
+        Integer id = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            UserEntity userEntity = userRepository.getUserByUsername(username);
+            id = userEntity.getUserId();
+        }
+        modelAndView.addObject("user", userRepository.findById(id).get());
         return modelAndView;
 
     }

@@ -1,12 +1,12 @@
 package com.sda.rideshare.controllers;
 
 import com.sda.rideshare.entities.*;
-import com.sda.rideshare.repositories.AddressRepository;
 import com.sda.rideshare.repositories.RideRepository;
 import com.sda.rideshare.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -14,18 +14,17 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-public class RideController extends BaseController{
+public class RideController extends BaseController {
     private static final Logger logger = LoggerFactory.getLogger(RideController.class);
 
     @Autowired
     private RideRepository rideRepository;
 
-    @Autowired
-    private AddressRepository addressRepository;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,25 +41,17 @@ public class RideController extends BaseController{
         ModelAndView modelAndView = new ModelAndView("redirect:/main");
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
-        if(user.isPresent()){
+        if (user.isPresent()) {
             String username = user.get().getUsername();
-          userEntity = userRepository.getUserByUsername(username);
+            userEntity = userRepository.getUserByUsername(username);
 
         }
         RideEntity rideEntity = new RideEntity();
-        AddressEntity departureAddress = new AddressEntity();
-        departureAddress.setCity(modelRide.getDepartureCity());
-        departureAddress.setStreetAndNumber(modelRide.getDepartureStreetAndNumber());
-        addressRepository.save(departureAddress);
-
-        AddressEntity arrivalAddress = new AddressEntity();
-        arrivalAddress.setCity(modelRide.getArrivalCity());
-        arrivalAddress.setStreetAndNumber(modelRide.getArrivalStreetAndNumber());
-        addressRepository.save(arrivalAddress);
-
         rideEntity.setRideId(modelRide.getModelRideId());
-        rideEntity.setDepartureAddress(departureAddress);
-        rideEntity.setArrivalAddress(arrivalAddress);
+        rideEntity.setDepartureCity(modelRide.getDepartureCity());
+        rideEntity.setArrivalCity(modelRide.getArrivalCity());
+        rideEntity.setDepartureStreetAndNumber(modelRide.getDepartureStreetAndNumber());
+        rideEntity.setArrivalStreetAndNumber(modelRide.getArrivalStreetAndNumber());
         rideEntity.setDepartureDate(modelRide.getDepartureDate());
         rideEntity.setDepartureTime(modelRide.getDepartureTime());
         rideEntity.setArrivalTime(modelRide.getArrivalTime());
@@ -71,28 +62,38 @@ public class RideController extends BaseController{
         return modelAndView;
     }
 
-//    @GetMapping("/find-ride")
-//    public ModelAndView getMainPage () {
-//        ModelAndView modelAndView = new ModelAndView("find-ride");
-//        return modelAndView;
-//    }
- @GetMapping("/view-rides/{id}")
- public ModelAndView getHistoryRides( @PathVariable Integer id) {
-     ModelAndView modelAndView = new ModelAndView("rides");
-      HistoryRideModel historyRideModel = new HistoryRideModel();
+    @GetMapping("/find-ride")
+    public ModelAndView getRides(){
+        ModelAndView modelAndView = new ModelAndView("find-ride");
+        return modelAndView;
+    }
 
-     UserEntity userEntity = userRepository.findById(id).get();
-     modelAndView.addObject("historyList", new HistoryRideModel());
-     RideEntity rideEntity = rideRepository.getRideByUser(userEntity);
-     historyRideModel.setDepartureCity(rideEntity.getDepartureAddress().getCity());
-     historyRideModel.setArrivalCity(rideEntity.getArrivalAddress().getCity());
-     historyRideModel.setDate(rideEntity.getDepartureDate());
-    return modelAndView;
+    @GetMapping("/found-rides")
+    public ModelAndView getFoundRides( @RequestParam(value = "departureCity") String departureCity,
+                                 @RequestParam(value = "arrivalCity") String arrivalCity,
+                                 @RequestParam(value = "departureDate")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate) {
+        ModelAndView modelAndView = new ModelAndView("found-rides");
+        modelAndView.addObject("foundRides", rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDate(departureCity, arrivalCity, departureDate));
+        return modelAndView;
+    }
 
-}
+    @GetMapping("/my-rides")
+    public ModelAndView getHistoryRides() {
+        ModelAndView modelAndView = new ModelAndView("rides");
+        Optional<User> user = getLoggedInUser();
+        Integer id = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            UserEntity userEntity = userRepository.getUserByUsername(username);
+            id = userEntity.getUserId();
+        }
+        modelAndView.addObject("user", userRepository.findById(id).get());
+        return modelAndView;
+
+    }
 
     @GetMapping("/delete-ride/{id}")
-    public ModelAndView deleteCategory (@PathVariable Integer id) {
+    public ModelAndView deleteRide(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/view-rides");
         rideRepository.deleteById(id);
         return modelAndView;
