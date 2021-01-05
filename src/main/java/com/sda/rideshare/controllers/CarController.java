@@ -1,7 +1,6 @@
 package com.sda.rideshare.controllers;
 
 import com.sda.rideshare.entities.CarEntity;
-import com.sda.rideshare.entities.ModelRide;
 import com.sda.rideshare.entities.UserEntity;
 import com.sda.rideshare.repositories.CarRepository;
 import com.sda.rideshare.repositories.UserRepository;

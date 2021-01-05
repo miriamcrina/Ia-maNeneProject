@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1> Cursa selectata </h1>
+<table>
+    <tr>
+        <th>  Orasul de plecare.</th>
+        <th > Orasul de sosire</th>
+        <th > Ora de plecare</th>
+        <th > Ora de Sosire</th>
+        <th > Numele soferului </th>
+        <th > Masina utilizata </th>
+    </tr>
+
+    <tr >
+        <td th:text ="${selectedRide.getDepartureCity()}"></td>
+        <td th:text ="${selectedRide.getArrivalCity()}"></td>
+        <td th:text ="${selectedRide.getDepartureTime()}"></td>
+        <td th:text ="${selectedRide.getArrivalTime()}"></td>
+        <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
+        <td th:text ="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
+
+        <td>
+<!--            <a th:href ="@{'/select-ride/' + ${model.getRideId()}}" > Selecteaza </a> <br>-->
+
+        </td>
+    </tr>
+</table>
+
+</body>
+</html>

@@ -1,6 +1,7 @@
 package com.sda.rideshare.controllers;
 
 import com.sda.rideshare.entities.*;
+import com.sda.rideshare.repositories.CarRepository;
 import com.sda.rideshare.repositories.RideRepository;
 import com.sda.rideshare.repositories.UserRepository;
 import org.slf4j.Logger;
@@ -29,15 +30,26 @@ public class RideController extends BaseController {
     @Autowired
     private UserRepository userRepository;
 
+    @Autowired
+    private CarRepository carRepository;
+
     @GetMapping("/rides/add")
     public ModelAndView addRide() {
         ModelAndView modelAndView = new ModelAndView("ride-form");
-        modelAndView.addObject("modelRide", new ModelRide());
+        Optional<User> user = getLoggedInUser();
+        Integer id = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            UserEntity userEntity = userRepository.getUserByUsername(username);
+            id = userEntity.getUserId();
+        }
+        modelAndView.addObject("user", userRepository.findById(id).get());
+        modelAndView.addObject("modelRide", new RideEntity());
         return modelAndView;
     }
 
     @PostMapping("/rides/save")
-    public ModelAndView saveRide(@ModelAttribute("modelRide") ModelRide modelRide, BindingResult bindingResult) {
+    public ModelAndView saveRide(@ModelAttribute("modelRide") RideEntity rideEntity, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("redirect:/main");
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
@@ -46,16 +58,6 @@ public class RideController extends BaseController {
             userEntity = userRepository.getUserByUsername(username);
 
         }
-        RideEntity rideEntity = new RideEntity();
-        rideEntity.setRideId(modelRide.getModelRideId());
-        rideEntity.setDepartureCity(modelRide.getDepartureCity());
-        rideEntity.setArrivalCity(modelRide.getArrivalCity());
-        rideEntity.setDepartureStreetAndNumber(modelRide.getDepartureStreetAndNumber());
-        rideEntity.setArrivalStreetAndNumber(modelRide.getArrivalStreetAndNumber());
-        rideEntity.setDepartureDate(modelRide.getDepartureDate());
-        rideEntity.setDepartureTime(modelRide.getDepartureTime());
-        rideEntity.setArrivalTime(modelRide.getArrivalTime());
-        rideEntity.setPassengerNumber(modelRide.getPassengerNumber());
         rideEntity.setUser(userEntity);
 
         rideRepository.save(rideEntity);
@@ -63,17 +65,29 @@ public class RideController extends BaseController {
     }
 
     @GetMapping("/find-ride")
-    public ModelAndView getRides(){
+    public ModelAndView getRides() {
         ModelAndView modelAndView = new ModelAndView("find-ride");
         return modelAndView;
     }
 
     @GetMapping("/found-rides")
-    public ModelAndView getFoundRides( @RequestParam(value = "departureCity") String departureCity,
-                                 @RequestParam(value = "arrivalCity") String arrivalCity,
-                                 @RequestParam(value = "departureDate")  @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate) {
+    public ModelAndView getFoundRides(@RequestParam(value = "departureCity") String departureCity,
+                                      @RequestParam(value = "arrivalCity") String arrivalCity,
+                                      @RequestParam(value = "departureDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate departureDate,
+                                      @RequestParam(value = "passengerNumber") Integer passengerNumber) {
         ModelAndView modelAndView = new ModelAndView("found-rides");
-        modelAndView.addObject("foundRides", rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDate(departureCity, arrivalCity, departureDate));
+
+        List<RideEntity> rides = rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDate(departureCity, arrivalCity, departureDate);
+
+        Integer defaultPassengerNumber = 1;
+
+        if (rides != null) {
+            for (RideEntity r : rides) {
+                defaultPassengerNumber = r.getPassengerNumber();
+                modelAndView.addObject("foundRides", rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDateAndPassengerNumberGreaterThanEqualAndPassengerNumberLessThanEqual(departureCity, arrivalCity, departureDate, passengerNumber, defaultPassengerNumber));
+                return modelAndView;
+            }
+        }
         return modelAndView;
     }
 
@@ -90,6 +104,20 @@ public class RideController extends BaseController {
         modelAndView.addObject("user", userRepository.findById(id).get());
         return modelAndView;
 
+    }
+
+    @GetMapping("/select-ride/{id}")
+    public ModelAndView selectRide(@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("selected-ride");
+        RideEntity rideEntity = rideRepository.findById(id).get();
+        modelAndView.addObject("selectedRide", rideEntity);
+        UserEntity userEntity = rideEntity.getUser();
+        Integer userId = userEntity.getUserId();
+        modelAndView.addObject("selectedDriver",userRepository.findById(userId).get());
+        CarEntity carEntity = rideEntity.getCarEntity();
+        Integer carId = carEntity.getCarId();
+        modelAndView.addObject("selectedCar", carRepository.findById(carId).get());
+        return modelAndView;
     }
 
     @GetMapping("/delete-ride/{id}")

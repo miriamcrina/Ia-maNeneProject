@@ -36,6 +36,10 @@ public class RideEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    @OneToOne
+    @JoinColumn(name = "carId")
+    private CarEntity carEntity;
+
 //    @OneToOne
 //    @JoinColumn(name = "cityDeparture", referencedColumnName = "city")
 //    private AddressEntity departureAddress;
@@ -45,6 +49,14 @@ public class RideEntity {
 //    private AddressEntity arrivalAddress;
 
      public RideEntity() {
+    }
+
+    public CarEntity getCarEntity() {
+        return carEntity;
+    }
+
+    public void setCarEntity(CarEntity carEntity) {
+        this.carEntity = carEntity;
     }
 
     public String getDepartureCity() {

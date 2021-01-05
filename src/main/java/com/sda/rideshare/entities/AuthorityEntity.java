@@ -18,6 +18,7 @@ public class AuthorityEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+
     public String getUsername() {
         return username;
     }

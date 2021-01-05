@@ -18,6 +18,17 @@ public class CarEntity {
     @JoinColumn(name = "userId")
     private UserEntity user;
 
+    @OneToOne(mappedBy = "carEntity")
+    private RideEntity rideEntity;
+
+    public RideEntity getRideEntity() {
+        return rideEntity;
+    }
+
+    public void setRideEntity(RideEntity rideEntity) {
+        this.rideEntity = rideEntity;
+    }
+
     public Integer getCarId() {
         return carId;
     }
