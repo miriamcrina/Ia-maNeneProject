@@ -61,15 +61,9 @@
                 th:each="car : ${user.getCars()}"
                 th:value="${car.getCarId()}"
                 th:text ="${car.getCarMake() + ' ' + car.getCarModel()}"></option>
-<!--        <tr th:each = " car : ${user.getCars()}">-->
-<!--            <td type= "hidden" th:text ="${car.getCarId()}"></td>-->
-<!--            <td th:text ="${car.getCarMake()}"></td>-->
-<!--            <td th:text ="${car.getCarModel()}"></td>-->
-<!--            <td th:text ="${car.getPlateNumber()}"></td>-->
-<!--        </tr>-->
     </select>
-<!--CUM ADAUGAM MASINA, ASTFEL INCAT UTILIZATORUL SA POATE SELECTA DIN LISTA LUI DE MASINI?????
-SE POATE FACE CU TH IF IN MY-CAR ASTFEL INCAT SA IL OBLIGAM SA AIBA DOAR O MASINA IN BAZA DE DATE????-->
+    <br>
+    <br>
     <button type="submit" >Creeaza cursa</button>
 </form>
 

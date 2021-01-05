@@ -11,6 +11,7 @@
         <th > Orasul de sosire</th>
         <th > Data</th>
         <th > Ora de plecare</th>
+        <th > Locuri disponibile </th>
     </tr>
 
     <tr th:each = "model: ${foundRides}">
@@ -18,6 +19,7 @@
         <td th:text ="${model.getArrivalCity()}"></td>
         <td th:text ="${model.getDepartureDate()}"></td>
         <td th:text ="${model.getDepartureTime()}"></td>
+        <td th:text ="${model.getAvailableSeats()}"></td>
 
         <td>
             <a th:href ="@{'/select-ride/' + ${model.getRideId()}}" > Selecteaza </a> <br>

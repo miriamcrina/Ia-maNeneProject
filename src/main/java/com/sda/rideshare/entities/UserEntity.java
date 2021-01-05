@@ -37,9 +37,20 @@ public class UserEntity {
     @OneToMany(mappedBy = "user")
     private List<CarEntity> cars;
 
+    @OneToMany(mappedBy = "user")
+    private  List<BookingEntity> bookingList;
+
 
 
     public UserEntity() {
+    }
+
+    public List<BookingEntity> getBookingList() {
+        return bookingList;
+    }
+
+    public void setBookingList(List<BookingEntity> bookingList) {
+        this.bookingList = bookingList;
     }
 
     public String getUsername() {

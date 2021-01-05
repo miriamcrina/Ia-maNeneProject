@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.util.List;
 
 @Entity
 @Table(name = "rides")
@@ -31,6 +32,7 @@ public class RideEntity {
     private LocalTime arrivalTime;
 
     private Integer passengerNumber;
+    private Integer availableSeats;
 
     @ManyToOne
     @JoinColumn(name = "userId")
@@ -40,15 +42,27 @@ public class RideEntity {
     @JoinColumn(name = "carId")
     private CarEntity carEntity;
 
-//    @OneToOne
-//    @JoinColumn(name = "cityDeparture", referencedColumnName = "city")
-//    private AddressEntity departureAddress;
-//
-//    @OneToOne
-//    @JoinColumn(name = "cityArrival", referencedColumnName = "city")
-//    private AddressEntity arrivalAddress;
+    @OneToMany(mappedBy = "ride")
+    private List<BookingEntity> bookingList;
+
 
      public RideEntity() {
+    }
+
+    public List<BookingEntity> getBookingList() {
+        return bookingList;
+    }
+
+    public void setBookingList(List<BookingEntity> bookingList) {
+        this.bookingList = bookingList;
+    }
+
+    public Integer getAvailableSeats() {
+        return availableSeats;
+    }
+
+    public void setAvailableSeats(Integer availableSeats) {
+        this.availableSeats = availableSeats;
     }
 
     public CarEntity getCarEntity() {

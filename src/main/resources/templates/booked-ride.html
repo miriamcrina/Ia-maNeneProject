@@ -5,9 +5,9 @@
     <title>Title</title>
 </head>
 <body>
-<h1> Cursa selectata </h1>
-<form action="/booking-save" method="post" th:object="${booking}">
-    <input type="hidden" id = "id" name ="id" th:field ="*{bookingModelId}">
+<h1> Cursa rezervata</h1>
+<h3> Felicitari! Ai rezervat cu succes urmatoarea cursa: </h3>
+
 <table>
     <tr>
         <th>  Orasul de plecare.</th>
@@ -16,32 +16,20 @@
         <th > Ora de Sosire</th>
         <th > Numele soferului </th>
         <th > Masina utilizata </th>
-        <th > Locuri disponibile </th>
+        <th > Locuri rezervate </th>
     </tr>
 
     <tr >
-
         <td th:text ="${selectedRide.getDepartureCity()}"></td>
         <td th:text ="${selectedRide.getArrivalCity()}"></td>
         <td th:text ="${selectedRide.getDepartureTime()}"></td>
         <td th:text ="${selectedRide.getArrivalTime()}"></td>
         <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
         <td th:text ="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
-        <td th:text ="${selectedRide.getAvailableSeats()}"></td>
+        <td th:text ="${booking.getBookedSeats()}"></td>
 
     </tr>
 </table>
-    <label>
-        <input type="hidden" id= "rideId" th:name="rideId"
-               th:value="${booking.getRideId() != null} ? ${booking.getRideId()} : ${selectedRide.getRideId()}"/>>
-    </label>
-<!--    th:text="${selectedRide.getRideId()} th:field="*{rideId}" th:field="*{bookedSeats}"-->
-         <label for="bookedSeats"> Cate locuri doresti sa rezervi? </label><br>
-         <input type="number" id="bookedSeats" th:name="bookedSeats">
-        <br>
-        <br>
-    <input type="submit" value="Salveaza" > <br>
-</form>
 
 </body>
 </html>

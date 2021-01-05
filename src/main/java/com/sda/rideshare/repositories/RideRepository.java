@@ -12,7 +12,8 @@ import java.util.List;
 @Repository
 public interface RideRepository extends JpaRepository<RideEntity, Integer> {
 
-    List<RideEntity> getAllByDepartureCityAndArrivalCityAndDepartureDateAndPassengerNumberGreaterThanEqualAndPassengerNumberLessThanEqual(String departureCity, String arrivalCity, LocalDate departureDate, Integer defaultPassengerNumber, Integer passengerNumber );
+    List<RideEntity> getAllByDepartureCityAndArrivalCityAndDepartureDateAndAvailableSeatsGreaterThanEqualAndAvailableSeatsLessThanEqual(String departureCity, String arrivalCity, LocalDate departureDate, Integer defaultPassengerNumber, Integer passengerNumber );
     List<RideEntity> getAllByDepartureCityAndArrivalCityAndDepartureDate(String departureCity, String arrivalCity, LocalDate departureDate );
+
 
 }
