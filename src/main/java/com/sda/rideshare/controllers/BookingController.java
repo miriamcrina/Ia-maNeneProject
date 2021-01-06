@@ -66,7 +66,7 @@ private CarRepository carRepository;
 
     }
 
-    @GetMapping("/booked-ride")
+    @GetMapping("/booked-ride/{id}")
     public ModelAndView bookRide(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("booked-ride");
         RideEntity rideEntity = rideRepository.findById(id).get();

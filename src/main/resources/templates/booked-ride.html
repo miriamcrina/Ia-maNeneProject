@@ -17,6 +17,7 @@
         <th > Numele soferului </th>
         <th > Masina utilizata </th>
         <th > Locuri rezervate </th>
+        <th > Nr. telefon </th>
     </tr>
 
     <tr >
@@ -27,6 +28,7 @@
         <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
         <td th:text ="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
         <td th:text ="${booking.getBookedSeats()}"></td>
+        <td th:text ="${selectedDriver.getPhoneNumber()}"></td>
 
     </tr>
 </table>
