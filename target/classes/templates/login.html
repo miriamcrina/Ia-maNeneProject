@@ -21,17 +21,17 @@
 </head>
 <body class="text-center">
 
-<div th:if = "${errorMessage}">
-    <span th:text="${errorMessage}"></span>
-    </div>
+
 <main class="form-signin">
 <form method="post" action="/login-submit">
     <img class="mb-4" src="/img/logo.png" alt="" width="72" height="57">
     <h1 class="h3 mb-3 fw-normal">Intra in cont</h1>
-    <label for="username" class="visually-hidden">Nume utilizator</label>
+    <div th:if = "${errorMessage}" style="text-align: center; color: red" >
+        <span th:text="${errorMessage}"></span>
+    </div>
+<!--    <label for="username" class="visually-hidden">Nume utilizator</label>-->
     <input type="text" id ="username" name="username" class="form-control" placeholder="Nume utilizator" required autofocus>
-
-    <label for="password" class="visually-hidden">Parola</label>
+<!--    <label for="password" class="visually-hidden">Parola</label>-->
     <input type="password" id="password" name="password" class="form-control" placeholder="Parola" required>
 
     <label>
