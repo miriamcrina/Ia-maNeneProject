@@ -6,11 +6,11 @@
 </head>
 <body>
 <h1> Cursa selectata </h1>
-<form action="/booking-save" method="post" th:object="${booking}">
+<form th:action="@{'/booking-save/'+ ${selectedRide.getRideId()}}" method="post" th:object="${booking}">
     <input type="hidden" id = "id" name ="id" th:field ="*{bookingModelId}">
 <table>
     <tr>
-        <th>  Orasul de plecare.</th>
+        <th>  Orasul de plecare</th>
         <th > Orasul de sosire</th>
         <th > Ora de plecare</th>
         <th > Ora de Sosire</th>
@@ -33,11 +33,11 @@
 </table>
     <label>
         <input type="hidden" id= "rideId" th:name="rideId"
-               th:value="${booking.getRideId() != null} ? ${booking.getRideId()} : ${selectedRide.getRideId()}"/>>
+               th:value="${booking.getRideId() != null} ? ${booking.getRideId()} : ${selectedRide.getRideId()}"/>
     </label>
-<!--    th:text="${selectedRide.getRideId()} th:field="*{rideId}" th:field="*{bookedSeats}"-->
+
          <label for="bookedSeats"> Cate locuri doresti sa rezervi? </label><br>
-         <input type="number" id="bookedSeats" th:name="bookedSeats">
+         <input type="number" id="bookedSeats" th:name="bookedSeats" >
         <br>
         <br>
     <input type="submit" value="Salveaza" > <br>

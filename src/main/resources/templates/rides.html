@@ -6,24 +6,49 @@
 </head>
 <body>
 <table>
+    <h3>Cursele publicate</h3>
     <tr>
-        <!--        <th>  Nr. Crt.</th>-->
-        <th > Orasul de plecare</th>
-        <th > Orasul de sosire</th>
-        <th > Data </th>
+        <th> Nr. Crt.</th>
+        <th> Orasul de plecare</th>
+        <th> Orasul de sosire</th>
+        <th> Data</th>
     </tr>
 
-    <tr th:each = " ride : ${user.getRides()}">
-        <!--        <td th:text ="${ride.getRideId()}"></td> -->
-        <!--        cum sa fac sa imi faca o incrementare pe pagina a numerelor, nu direct din baza de date???-->
-        <td th:text ="${ride.getDepartureCity()}"></td>
-        <td th:text ="${ride.getArrivalCity()}"></td>
-        <td th:text ="${ride.getDepartureDate()}"></td>
+    <tr th:each=" ride,iter : ${user.getRides()}">
+        <td th:utext="${iter.count}"></td>
+        <td th:text="${ride.getDepartureCity()}"></td>
+        <td th:text="${ride.getArrivalCity()}"></td>
+        <td th:text="${ride.getDepartureDate()}"></td>
 
-        <!--        <td>-->
-        <!--&lt;!&ndash;            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>&ndash;&gt;-->
-        <!--&lt;!&ndash;            <a th:href ="@{'/delete-car/' + ${ride.getRideId()}}"> Sterge cursa </a>&ndash;&gt;-->
-        <!--        </td>-->
+        <td>
+            <a th:href="@{'/edit-ride/' + ${ride.getRideId()}}"> Modifica datele </a> <br>
+            <a th:href="@{'/delete-ride/' + ${ride.getRideId()}}"> Sterge cursa </a>
+        </td>
+    </tr>
+</table>
+
+<table>
+    <h3>Cursele rezervate</h3>
+    <tr>
+        <th> Nr. Crt.</th>
+        <th> Orasul de plecare</th>
+        <th> Orasul de sosire</th>
+        <th> Data</th>
+        <th> Locuri rezervate</th>
+    </tr>
+
+    <tr th:each=" rideBooked,iter : ${user.getBookingList()}">
+        <td th:utext="${iter.count}"></td>
+        <td th:text="${rideBooked.getRide().getDepartureCity()}"></td>
+        <td th:text="${rideBooked.getRide().getArrivalCity()}"></td>
+        <td th:text="${rideBooked.getRide().getDepartureDate()}"></td>
+        <td th:text="${rideBooked.getBookedSeats()}" th:name="bookedSeats"
+            th:value="${rideBooked.getBookedSeats()}"></td>
+
+        <td>
+            <!--&lt;!&ndash;            <a th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifica datele </a> <br>&ndash;&gt;-->
+            <a th:href="@{'/delete-booking/' + ${rideBooked.getBookingId()}}"> Anuleaza rezervarea </a>
+        </td>
     </tr>
 </table>
 

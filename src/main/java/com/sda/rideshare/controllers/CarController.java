@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.validation.Valid;
 import java.util.Optional;
 
 @Controller
@@ -29,11 +30,6 @@ public class CarController extends BaseController{
     private UserRepository userRepository;
 
 
-//    @GetMapping("/my-car")
-//    public ModelAndView getMyCarPage () {
-//        ModelAndView modelAndView = new ModelAndView("my-car");
-//        return modelAndView;
-//    }
 
     @GetMapping("/add-car")
     public ModelAndView addCar () {
@@ -43,8 +39,15 @@ public class CarController extends BaseController{
     }
 
     @PostMapping("/car-save")
-    public ModelAndView saveCar(@ModelAttribute("car") CarEntity carEntity, BindingResult bindingResult) {
+    public ModelAndView saveCar(@Valid @ModelAttribute("car") CarEntity carEntity, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
+
+        if(bindingResult.hasErrors()) {
+            modelAndView.setViewName("car-form");
+            modelAndView.addObject("car", carEntity);
+            return modelAndView;
+        }
+
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
         if (user.isPresent()) {
@@ -74,14 +77,14 @@ public class CarController extends BaseController{
     }
 
     @GetMapping("/edit-car/{id}")
-    public ModelAndView editCategory (@PathVariable Integer id) {
+    public ModelAndView editCar (@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("car-form");
         modelAndView.addObject("car", carRepository.findById(id).get());
         return modelAndView;
     }
 
     @GetMapping("/delete-car/{id}")
-    public ModelAndView deleteCategory (@PathVariable Integer id) {
+    public ModelAndView deleteCar (@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
         carRepository.deleteById(id);
         return modelAndView;

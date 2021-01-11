@@ -3,6 +3,8 @@ package com.sda.rideshare.entities;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.Valid;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
@@ -16,12 +18,26 @@ public class RideEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rideId;
 
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
+    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String departureCity;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Size(min = 4, max = 20, message = "Camp invalid - text prea lung sau prea scurt")
     private String departureStreetAndNumber;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
+    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String arrivalCity;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Size(min = 4, max = 20, message = "Camp invalid - text prea lung sau prea scurt")
     private String arrivalStreetAndNumber;
 
-
+    @FutureOrPresent(message = "Camp invalid")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate departureDate;
 
@@ -31,14 +47,21 @@ public class RideEntity {
     @DateTimeFormat(iso = DateTimeFormat.ISO.TIME)
     private LocalTime arrivalTime;
 
+    @NotNull(message = "Campul nu poate fi gol")
+    @Positive(message = "Date incorecte")
+    @Min (value = 1, message = "Numarul de locuri oferit trebuie sa fie minim 1.")
+    @Max(value = 7, message = "Numarul de locuri oferit nu poate depasi 7.")
     private Integer passengerNumber;
+    @NotNull
     private Integer availableSeats;
+
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToOne
+
+    @ManyToOne
     @JoinColumn(name = "carId")
     private CarEntity carEntity;
 

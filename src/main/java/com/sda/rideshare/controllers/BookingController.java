@@ -14,6 +14,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.persistence.criteria.CriteriaBuilder;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.time.LocalDate;
@@ -35,12 +36,13 @@ public class BookingController extends BaseController{
 private CarRepository carRepository;
 
 
-    @PostMapping("/booking-save")
+    @PostMapping("/booking-save/{id}")
     public ModelAndView saveBooking(@ModelAttribute("booking")BookingModel bookingModel,
-                                    @RequestParam(value = "rideId") Integer rideId,
+//                                    @RequestParam(value = "rideId") Integer rideId,
                                     @RequestParam(value = "bookedSeats") Integer bookedSeats,
+                                    @PathVariable Integer id,
                                     BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/booked-ride");
+        ModelAndView modelAndView = new ModelAndView("redirect:/booked-ride/{id}");
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
         if (user.isPresent()) {
@@ -49,10 +51,17 @@ private CarRepository carRepository;
 
         }
 
-        RideEntity rideEntity = rideRepository.findById(rideId).get();
+        RideEntity rideEntity = rideRepository.findById(id).get();
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
 
+        if(bookedSeats > rideEntity.getAvailableSeats() && bookedSeats <= 0)
+        {
+
+        }
+        Integer newAvailableSeats = rideEntity.getAvailableSeats() - bookedSeats;
+        rideEntity.setAvailableSeats(newAvailableSeats);
+        rideRepository.save(rideEntity);
         BookingEntity bookingEntity = new BookingEntity();
         bookingEntity.setBookingDate(localDate);
         bookingEntity.setBookingTime(localTime);
@@ -60,8 +69,7 @@ private CarRepository carRepository;
         bookingEntity.setRide(rideEntity);
         bookingEntity.setBookedSeats(bookedSeats);
         bookingRepository.save(bookingEntity);
-        Integer newAvailableSeats = rideEntity.getAvailableSeats() - bookedSeats;
-        rideEntity.setAvailableSeats(newAvailableSeats);
+
         return modelAndView;
 
     }
@@ -72,14 +80,45 @@ private CarRepository carRepository;
         RideEntity rideEntity = rideRepository.findById(id).get();
         modelAndView.addObject("selectedRide", rideEntity);
         UserEntity userEntity = rideEntity.getUser();
-        Integer userId = userEntity.getUserId();
-        modelAndView.addObject("selectedDriver",userRepository.findById(userId).get());
-        CarEntity carEntity = rideEntity.getCarEntity();
-        Integer carId = carEntity.getCarId();
-        modelAndView.addObject("selectedCar", carRepository.findById(carId).get());
-        List<BookingEntity> bookingList = userEntity.getBookingList();
-        BookingEntity bookingEntity = userEntity.getBookingList().get(bookingList.size()-1);
-        modelAndView.addObject("booking", bookingEntity);
+        modelAndView.addObject("selectedDriver", userEntity);
+        List<BookingEntity> list = userEntity.getBookingList();
+        BookingEntity entity = userEntity.getBookingList().get(list.size()-1);
+        modelAndView.addObject("booking", entity);
+
+//        BookingEntity bookingEntity = bookingRepository.findById(id).get();
+//        modelAndView.addObject("booking", bookingEntity);
+//        RideEntity rideEntity = bookingEntity.getRide();
+//        modelAndView.addObject("selectedRide", rideEntity);
+//        UserEntity userEntity = rideEntity.getUser();
+//        modelAndView.addObject("selectedDriver", userEntity);
+
+//        Optional<User> user = getLoggedInUser();
+//        UserEntity userEntity = null;
+//        if (user.isPresent()) {
+//            String username = user.get().getUsername();
+//            userEntity = userRepository.getUserByUsername(username);
+//
+//        }
+//        List<BookingEntity> list = userEntity.getBookingList();
+//        BookingEntity bookingEntity = bookingRepository.findById(list.size()-1).get();
+//        modelAndView.addObject("booking", bookingEntity);
+//        RideEntity rideEntity = bookingEntity.getRide();
+//        modelAndView.addObject("selectedRide", rideEntity);
+//        UserEntity driver = rideEntity.getUser();
+//        modelAndView.addObject("selectedDriver", driver);
+
+        return modelAndView;
+    }
+
+    @GetMapping("/delete-booking/{id}")
+    public ModelAndView deleteBooking (@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/my-rides");
+        BookingEntity bookingEntity = bookingRepository.findById(id).get();
+        RideEntity rideEntity = bookingEntity.getRide();
+        Integer newAvailableSeats = rideEntity.getAvailableSeats() + bookingEntity.getBookedSeats();
+        rideEntity.setAvailableSeats(newAvailableSeats);
+        rideRepository.save(rideEntity);
+        bookingRepository.deleteById(id);
         return modelAndView;
     }
 }

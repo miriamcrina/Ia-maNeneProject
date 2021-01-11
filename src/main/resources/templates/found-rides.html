@@ -14,15 +14,15 @@
         <th > Locuri disponibile </th>
     </tr>
 
-    <tr th:each = "model: ${foundRides}">
-        <td th:text ="${model.getDepartureCity()}"></td>
-        <td th:text ="${model.getArrivalCity()}"></td>
-        <td th:text ="${model.getDepartureDate()}"></td>
-        <td th:text ="${model.getDepartureTime()}"></td>
-        <td th:text ="${model.getAvailableSeats()}"></td>
+    <tr th:each = "foundRide: ${foundRides}">
+        <td th:text ="${foundRide.getDepartureCity()}"></td>
+        <td th:text ="${foundRide.getArrivalCity()}"></td>
+        <td th:text ="${foundRide.getDepartureDate()}"></td>
+        <td th:text ="${foundRide.getDepartureTime()}"></td>
+        <td th:text ="${foundRide.getAvailableSeats()}"></td>
 
         <td>
-            <a th:href ="@{'/select-ride/' + ${model.getRideId()}}" > Selecteaza </a> <br>
+            <a th:href ="@{'/select-ride/' + ${foundRide.getRideId()}}" > Selecteaza </a> <br>
 
         </td>
     </tr>

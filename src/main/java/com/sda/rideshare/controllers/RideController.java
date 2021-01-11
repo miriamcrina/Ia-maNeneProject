@@ -1,6 +1,7 @@
 package com.sda.rideshare.controllers;
 
 import com.sda.rideshare.entities.*;
+import com.sda.rideshare.repositories.BookingRepository;
 import com.sda.rideshare.repositories.CarRepository;
 import com.sda.rideshare.repositories.RideRepository;
 import com.sda.rideshare.repositories.UserRepository;
@@ -33,6 +34,9 @@ public class RideController extends BaseController {
     @Autowired
     private CarRepository carRepository;
 
+    @Autowired
+    private BookingRepository bookingRepository;
+
     @GetMapping("/rides/add")
     public ModelAndView addRide() {
         ModelAndView modelAndView = new ModelAndView("ride-form");
@@ -49,8 +53,23 @@ public class RideController extends BaseController {
     }
 
     @PostMapping("/rides/save")
-    public ModelAndView saveRide(@ModelAttribute("modelRide") RideEntity rideEntity, BindingResult bindingResult) {
+    public ModelAndView saveRide(@Valid @ModelAttribute("modelRide") RideEntity rideEntity, BindingResult bindingResult) {
         ModelAndView modelAndView = new ModelAndView("redirect:/main");
+
+//        if(bindingResult.hasErrors()) {
+//            modelAndView.setViewName("ride-form");
+////            Optional<User> user = getLoggedInUser();
+////            UserEntity userEntity = null;
+////            Integer id = null;
+////            if (user.isPresent()) {
+////                String username = user.get().getUsername();
+////                userEntity = userRepository.getUserByUsername(username);
+////                id = userEntity.getUserId();
+////            }
+////            modelAndView.addObject("user", userRepository.findById(id).get());
+//            modelAndView.addObject("modelRide", rideEntity);
+//            return modelAndView;
+//        }
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
         if (user.isPresent()) {
@@ -60,7 +79,6 @@ public class RideController extends BaseController {
         }
         rideEntity.setAvailableSeats(rideEntity.getPassengerNumber());
         rideEntity.setUser(userEntity);
-
         rideRepository.save(rideEntity);
         return modelAndView;
     }
@@ -90,7 +108,9 @@ public class RideController extends BaseController {
 //            }
 //        }
         ModelAndView modelAndView = new ModelAndView("found-rides");
-        modelAndView.addObject("foundRides", rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDate(departureCity, arrivalCity, departureDate));
+        List<RideEntity> rides = rideRepository.getAllByDepartureCityAndArrivalCityAndDepartureDate(departureCity, arrivalCity, departureDate);
+        rides.removeIf(ride -> ride.getAvailableSeats() <= 0);
+        modelAndView.addObject("foundRides", rides);
         return modelAndView;
     }
 
@@ -124,11 +144,33 @@ public class RideController extends BaseController {
         return modelAndView;
 
     }
+
+    @GetMapping("/edit-ride/{id}")
+    public ModelAndView editRide (@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("ride-form");
+        Optional<User> user = getLoggedInUser();
+        Integer userId = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            UserEntity userEntity = userRepository.getUserByUsername(username);
+            id = userEntity.getUserId();
+        }
+        modelAndView.addObject("user", userRepository.findById(userId).get());
+        modelAndView.addObject("modelRide", rideRepository.findById(id).get());
+        return modelAndView;
+//       /........????????????????????????????????????????????????????????????????????????????
+    }
+
     @GetMapping("/delete-ride/{id}")
     public ModelAndView deleteRide(@PathVariable Integer id) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/view-rides");
+        ModelAndView modelAndView = new ModelAndView("redirect:/my-rides");
+        RideEntity rideEntity = rideRepository.findById(id).get();
+        List<BookingEntity> bookingList = rideEntity.getBookingList();
+        bookingRepository.deleteAll(bookingList);
         rideRepository.deleteById(id);
         return modelAndView;
     }
+
+
 
 }

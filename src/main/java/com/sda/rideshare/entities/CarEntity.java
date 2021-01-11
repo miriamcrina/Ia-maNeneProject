@@ -1,6 +1,10 @@
 package com.sda.rideshare.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
+import java.util.List;
 
 @Entity
 @Table(name = "cars")
@@ -10,23 +14,32 @@ public class CarEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer carId;
 
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp="^[A-Za-z]*$",message = "Date incorecte")
+    @Size(min = 3, max = 10, message = "Camp invalid - text prea lung sau prea scurt")
     private String carMake;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Size(min = 2, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String carModel;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Size(min = 7, max = 10, message = "Camp invalid - text prea lung sau prea scurt")
     private String plateNumber;
 
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToOne(mappedBy = "carEntity")
-    private RideEntity rideEntity;
+    @OneToMany(mappedBy = "carEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<RideEntity> rides;
 
-    public RideEntity getRideEntity() {
-        return rideEntity;
+    public List<RideEntity> getRides() {
+        return rides;
     }
 
-    public void setRideEntity(RideEntity rideEntity) {
-        this.rideEntity = rideEntity;
+    public void setRides(List<RideEntity> rides) {
+        this.rides = rides;
     }
 
     public Integer getCarId() {

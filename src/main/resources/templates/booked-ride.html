@@ -14,9 +14,8 @@
         <th > Orasul de sosire</th>
         <th > Ora de plecare</th>
         <th > Ora de Sosire</th>
-        <th > Numele soferului </th>
-        <th > Masina utilizata </th>
         <th > Locuri rezervate </th>
+        <th > Numele soferului </th>
         <th > Nr. telefon </th>
     </tr>
 
@@ -25,9 +24,8 @@
         <td th:text ="${selectedRide.getArrivalCity()}"></td>
         <td th:text ="${selectedRide.getDepartureTime()}"></td>
         <td th:text ="${selectedRide.getArrivalTime()}"></td>
-        <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
-        <td th:text ="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
         <td th:text ="${booking.getBookedSeats()}"></td>
+        <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
         <td th:text ="${selectedDriver.getPhoneNumber()}"></td>
 
     </tr>

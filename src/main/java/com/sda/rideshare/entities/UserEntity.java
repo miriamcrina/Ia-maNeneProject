@@ -1,9 +1,11 @@
 package com.sda.rideshare.entities;
 
 
+import org.hibernate.validator.constraints.Length;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import javax.validation.constraints.*;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
@@ -15,19 +17,35 @@ public class UserEntity {
     @Id
     @GeneratedValue( strategy = GenerationType.IDENTITY)
     private Integer userId;
-
+    @Email
     private String email;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
+    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String surname;
+
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
+    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String name;
 
+    @Past(message = "Data introdusa este incorecta.")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private Date dateOfBirth;
 
-    private String password;
+    @NotBlank(message = "Campul nu poate fi gol")
+    @Pattern(regexp = "[0-9]+", message = "Nr de telefon invalid")
+    @Size(min = 10, max = 13, message = "Camp invalid - nr de telefon incorect")
     private String phoneNumber;
+
+    @NotBlank(message = "Campul nu poate fi gol")
     private String username;
+
     private Boolean enabled;
 
+    @NotBlank(message = "Campul nu poate fi gol")
+    private String password;
     @OneToMany(mappedBy = "user")
     private List<AuthorityEntity> authorities;
 
