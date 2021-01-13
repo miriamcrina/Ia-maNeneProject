@@ -61,26 +61,26 @@
 <div class="text-center">
 <main class="form-signin">
 <form method="post" action="/rides/save" th:object="${modelRide}">
-    <h1 class="h3 mb-3 fw-normal"> Cursa ta </h1>
     <img class="mb-4" src="/img/rasnov-fortress.jpg" alt="" width="300" height="100">
+    <h1 class="h3 mb-3 fw-normal"> Cursa ta </h1>
 
     <input type="hidden" id = "id" name ="id" th:field ="*{rideId}">
 
-    <span th:if=" ${#fields.hasErrors('departureCity')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('departureCity')}"
           th:each="err,stat:${#fields.errors('departureCity')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <input type="text" id="departureCity" name="departureCity" class="form-control" placeholder="Orasul de plecare" th:field="*{departureCity}">
     <br>
 
-    <span th:if=" ${#fields.hasErrors('departureStreetAndNumber')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('departureStreetAndNumber')}"
           th:each="err,stat:${#fields.errors('departureStreetAndNumber')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <input type="text" id="departureStreet" name="departureStreet" class="form-control" placeholder="Strada si numarul" th:field="*{departureStreetAndNumber}">
     <br>
 
-    <span th:if=" ${#fields.hasErrors('arrivalCity')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('arrivalCity')}"
           th:each="err,stat:${#fields.errors('arrivalCity')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
@@ -88,14 +88,14 @@
     <br>
 
 
-    <span th:if=" ${#fields.hasErrors('arrivalStreetAndNumber')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('arrivalStreetAndNumber')}"
           th:each="err,stat:${#fields.errors('arrivalStreetAndNumber')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <input type="text" id="arrivalStreet" name="arrivalStreet" class="form-control" placeholder="Strada si numarul"  th:field="*{arrivalStreetAndNumber}">
     <br>
 
-    <span th:if=" ${#fields.hasErrors('departureDate')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('departureDate')}"
           th:each="err,stat:${#fields.errors('departureDate')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
@@ -110,17 +110,17 @@
     <input type="time" id="arrivalTime" name="arrivalTime" class="form-control" placeholder="Ora de sosire estimata"th:field="*{arrivalTime}">
     <br>
 
-    <span th:if=" ${#fields.hasErrors('passengerNumber')}"
+    <span style="color: red" th:if=" ${#fields.hasErrors('passengerNumber')}"
           th:each="err,stat:${#fields.errors('passengerNumber')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <input type="number" id="passengerNumber" name="passengerNumber" class="form-control" placeholder="Numarul de pasageri"  th:field="*{passengerNumber}">
 
 
-<!--    <span th:if=" ${#fields.hasErrors('carEntity')}"-->
-<!--          th:each="err,stat:${#fields.errors('carEntity')}"-->
-<!--          th:utext="!${stat.last}?${err} +'<br>' : ${err}">-->
-<!--    </span>-->
+    <span style="color: red" th:if=" ${#fields.hasErrors('carEntity')}"
+          th:each="err,stat:${#fields.errors('carEntity')}"
+          th:utext="!${stat.last}?${err} +'<br>' : ${err}">
+    </span>
     <br>
     <select  class="form-control" th:field="*{carEntity}" id="usedCar" name="usedCar">
         <option value="">Selecteaza masina</option>
@@ -139,5 +139,21 @@
     </footer>
 </main>
 </div>
+<script>
+    $(function(){
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        console.log(maxDate);
+        $('#departureDate').attr('min', maxDate);
+    });
+</script>
 </body>
 </html>

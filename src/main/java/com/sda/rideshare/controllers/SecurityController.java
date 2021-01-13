@@ -12,6 +12,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 @Controller
 public class SecurityController {
@@ -47,23 +50,19 @@ public class SecurityController {
 
     @PostMapping("/register")
     public ModelAndView registerUserRequest(@Valid @ModelAttribute("user") UserEntity userEntity, BindingResult bindingResult) {
+        String username = userEntity.getUsername();
+        List<UserEntity> users = userRepository.getAllByUsername(username);
+        if (users!= null && !users.isEmpty()){
+            bindingResult.addError(new FieldError("user", "username",userEntity.getUsername(), false, null, null, "Username already exists"));
+        }
         ModelAndView modelAndView = new ModelAndView("redirect:/login");
         if(bindingResult.hasErrors()){
             modelAndView.setViewName("register");
             modelAndView.addObject("user", userEntity);
-//            modelAndView.addObject("editMode",  false);
             return modelAndView;
         }
-//        Optional<UserEntity> optionalUserEntity = userRepository.findById(userEntity.getUserId());
-//        if (optionalUserEntity.isPresent()) {
-//            UserEntity editedUserEntity = optionalUserEntity.get();
-//            editedUserEntity.setPassword(userEntity.getPassword());
-////            editedUserEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-//            userEntity = editedUserEntity;
-//        } else {
             userEntity.setEnabled(true);
             userEntity.setPassword(passwordEncoder.encode(userEntity.getPassword()));
-//        }
 
         userEntity = userRepository.save(userEntity);
         if (null == userEntity.getAuthorities()) {

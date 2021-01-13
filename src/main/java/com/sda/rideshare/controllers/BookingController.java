@@ -13,10 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.Valid;
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
@@ -38,7 +34,6 @@ private CarRepository carRepository;
 
     @PostMapping("/booking-save/{id}")
     public ModelAndView saveBooking(@ModelAttribute("booking")BookingModel bookingModel,
-//                                    @RequestParam(value = "rideId") Integer rideId,
                                     @RequestParam(value = "bookedSeats") Integer bookedSeats,
                                     @PathVariable Integer id,
                                     BindingResult bindingResult) {
@@ -55,10 +50,6 @@ private CarRepository carRepository;
         LocalDate localDate = LocalDate.now();
         LocalTime localTime = LocalTime.now();
 
-        if(bookedSeats > rideEntity.getAvailableSeats() && bookedSeats <= 0)
-        {
-
-        }
         Integer newAvailableSeats = rideEntity.getAvailableSeats() - bookedSeats;
         rideEntity.setAvailableSeats(newAvailableSeats);
         rideRepository.save(rideEntity);

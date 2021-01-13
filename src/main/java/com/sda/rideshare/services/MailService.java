@@ -1,0 +1,55 @@
+package com.sda.rideshare.services;
+
+import com.sda.rideshare.controllers.BaseController;
+import com.sda.rideshare.entities.BookingEntity;
+import com.sda.rideshare.entities.RideEntity;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.stereotype.Service;
+
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.List;
+
+@Service
+public class MailService {
+
+    @Autowired
+    private JavaMailSender javaMailSender;
+
+    public void sendEmail (List<String> emails, String content) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try{
+            InternetAddress[] internetAddresses = getInternetAddresses(emails);
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom("noreply@baeldung.com");
+            mimeMessageHelper.setTo(internetAddresses);
+            mimeMessageHelper.setSubject("Notificare - Ia-ma, Nene!");
+            mimeMessage.setContent(content, "text/html");
+            javaMailSender.send(mimeMessage);
+        }catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
+    private InternetAddress[] getInternetAddresses(List<String> emails) throws AddressException {
+        InternetAddress[] internetAddresses = new InternetAddress[emails.size()];
+        for (int i = 0; i < emails.size(); i++) {
+            internetAddresses[i] = new InternetAddress(emails.get(i));
+        }
+        return internetAddresses;
+    }
+    public  String getContent (RideEntity rideEntity) {
+        return "Stimate client,<br> " +
+                    "Cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ " a fost anulata de catre "+
+                    rideEntity.getUser().getName()+ ".<br> Pentru alte curse pe acelasi traseu, va rugam sa verificati site-ul nostru.<br>"+
+                    " Numai bine,<br> " +
+                    " Familia Ia-maNene ";
+    }
+
+    public String getContent (RideEntity rideEntity, BookingEntity bookingEntity){
+        return " ";
+    }
+}

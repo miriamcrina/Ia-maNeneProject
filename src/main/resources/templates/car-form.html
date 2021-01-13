@@ -17,47 +17,6 @@
     <title>Title</title>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="/img/logo.png" alt="" width="30" height="24">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/find-ride">Gaseste o cursa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/rides/add">Ofera o cursa</a>
-                </li>
-
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Profilul tau
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <!--                        <li><a class="dropdown-item" href="#">Adauga poza de profil</a></li>-->
-                        <li><a class="dropdown-item" href="/my-car">Masina mea</a></li>
-                        <li><a class="dropdown-item" href="/my-rides">Istoricul curselor</a></li>
-                        <!--                        <li><a class="dropdown-item" href="#">Notificari</a></li>-->
-                        <!--                        <li><hr class="dropdown-divider"></li>-->
-                        <!--                        <li><a class="dropdown-item" href="#">Ceva</a></li>-->
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/logout">Iesi din cont</a>
-                </li>
-            </ul>
-
-        </div>
-    </div>
-</nav>
-<br>
-<br>
-<br>
 <div class="text-center">
 <main class="form-signin">
 <form method="post" action="/car-save" th:object="${car}">

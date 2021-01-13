@@ -1,0 +1,42 @@
+html,
+body {
+    height: 100%;
+}
+
+body {
+    display: block;
+    align-items: center;
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background: rgb(201,218,218);
+    background: radial-gradient(circle, rgba(201,218,218,1) 0%, rgba(136,189,188,1) 53%, rgba(121,176,175,1) 100%);
+
+}
+.navbar {
+    background-color: white !important}
+
+#navBar {
+    margin-top: -40px;
+    position: sticky;
+}
+
+.navbar .navbar-nav li a {
+    color: #254e58 !important
+
+}
+.navbar .nav-item .dropdown-menu .dropdown-item {
+     color: #254e58 !important
+ }
+.w-100 {
+    background-color: #254e58;
+    color: whitesmoke;
+}
+.h3{
+    color: whitesmoke;
+}
+.mb-4{
+    border-radius: 10px;
+}
+.navbar .nav-item .dropdown-menu{
+    background-color: white;
+}

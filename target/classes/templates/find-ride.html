@@ -8,6 +8,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link type="text/css" rel="stylesheet" href="/css/login.css">
+    <link type="text/css" rel="stylesheet" href="/css/navBar.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -19,41 +20,41 @@
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="#">
-            <img src="/img/logo.png" alt="" width="30" height="24">
-        </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/find-ride">Gaseste o cursa</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/rides/add">Ofera o cursa</a>
-                </li>
 
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle active" href="" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Profilul tau
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <!--                        <li><a class="dropdown-item" href="#">Adauga poza de profil</a></li>-->
-                        <li><a class="dropdown-item" href="/my-car">Masina mea</a></li>
-                        <li><a class="dropdown-item" href="/my-rides">Istoricul curselor</a></li>
-                        <!--                        <li><a class="dropdown-item" href="#">Notificari</a></li>-->
-                        <!--                        <li><hr class="dropdown-divider"></li>-->
-                        <!--                        <li><a class="dropdown-item" href="#">Ceva</a></li>-->
-                    </ul>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link active" aria-current="page" href="/logout">Iesi din cont</a>
-                </li>
-            </ul>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-        </div>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="/main">
+                <img src="/img/logo.png" alt="" width="30" height="24">
+            </a>
+            <li class="nav-item active">
+                <a class="nav-link"  href="/find-ride">Gaseste o cursa <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link " href="/rides/add">Ofera o cursa</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Profilul tau
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <!--                        <li><a class="dropdown-item" href="#">Adauga poza de profil</a></li>-->
+                    <a class="dropdown-item" href="/my-car">Masina mea</a>
+                    <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
+                    <!--                        <li><a class="dropdown-item" href="#">Notificari</a></li>-->
+                    <!--                        <li><hr class="dropdown-divider"></li>-->
+                    <!--                        <li><a class="dropdown-item" href="#">Ceva</a></li>-->
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout">Iesi din cont</a>
+            </li>
+        </ul>
+
     </div>
 </nav>
 <br>
@@ -63,7 +64,7 @@
 <main class="form-signin">
     <form method="get" th:action="@{/found-rides}">
     <img class="mb-4" src="/img/photo3.jpg" alt="" width="300" height="100">
-    <h1 class="h3 mb-3 fw-normal">Gaseste o cursa</h1>
+    <h1 class="h3 mb-3 fw-normal">Unde vrei sa mergi?</h1>
 
 
 <!--    <label for="departureCity">Orasul de plecare</label>-->
@@ -75,13 +76,9 @@
     <br>
 
 <!--    <label for="departureDate">Data de plecare</label>-->
-    <input type="date" id="departureDate" class="form-control" placeholder="Data" th:name="departureDate">
+    <input type="date" id="departureDate"  class="form-control" placeholder="Data" th:name="departureDate" >
     <br>
 
-<!--    <label for="passengerNumber">Pasageri</label>-->
-<!--    <input type="number" id="passengerNumber" th:name="passengerNumber">-->
-<!--    <br>-->
-<!--    <br>-->
 
         <input class="w-100 btn btn-lg btn-primary" type="submit" value="Cauta">
         <br>
@@ -91,6 +88,22 @@
 </form>
 </main>
 </div>
+<script>
+    $(function(){
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        console.log(maxDate);
+        $('#departureDate').attr('min', maxDate);
+    });
+</script>
 </body>
 </html>
 

@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
@@ -93,6 +92,18 @@
         <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-ma, nene - 2021</p>
     </footer>
 </main>
+<script>
+    $(function() {
+        $(document).ready(function () {
+            var todaysDate = new Date();
+            var year = todaysDate.getFullYear();
+            var month = ("0" + (todaysDate.getMonth() + 1)).slice(-2);
+            var day = ("0" + todaysDate.getDate()).slice(-2);
+            var maxDate = (year +"-"+ month +"-"+ day);
+            $('#dateOfBirth').attr('max',maxDate);
 
+        });
+    });
+</script>
 </body>
 </html>

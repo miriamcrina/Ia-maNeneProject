@@ -117,10 +117,10 @@
     <input type="number" id="passengerNumber" name="passengerNumber" class="form-control" placeholder="Numarul de pasageri"  th:field="*{passengerNumber}">
 
 
-<!--    <span th:if=" ${#fields.hasErrors('carEntity')}"-->
-<!--          th:each="err,stat:${#fields.errors('carEntity')}"-->
-<!--          th:utext="!${stat.last}?${err} +'<br>' : ${err}">-->
-<!--    </span>-->
+    <span style="color: red" th:if=" ${#fields.hasErrors('carEntity')}"
+          th:each="err,stat:${#fields.errors('carEntity')}"
+          th:utext="!${stat.last}?${err} +'<br>' : ${err}">
+    </span>
     <br>
     <select  class="form-control" th:field="*{carEntity}" id="usedCar" name="usedCar">
         <option value="">Selecteaza masina</option>
@@ -139,5 +139,21 @@
     </footer>
 </main>
 </div>
+<script>
+    $(function(){
+        var dtToday = new Date();
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if(month < 10)
+            month = '0' + month.toString();
+        if(day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        console.log(maxDate);
+        $('#departureDate').attr('min', maxDate);
+    });
+</script>
 </body>
 </html>
