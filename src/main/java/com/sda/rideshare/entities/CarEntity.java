@@ -1,9 +1,12 @@
 package com.sda.rideshare.entities;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -27,12 +30,23 @@ public class CarEntity {
     @Size(min = 7, max = 10, message = "Camp invalid - text prea lung sau prea scurt")
     private String plateNumber;
 
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate addDate;
+
     @ManyToOne
     @JoinColumn(name = "userId")
     private UserEntity user;
 
-    @OneToMany(mappedBy = "carEntity", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "carEntity")
     private List<RideEntity> rides;
+
+    public LocalDate getAddDate() {
+        return addDate;
+    }
+
+    public void setAddDate(LocalDate addDate) {
+        this.addDate = addDate;
+    }
 
     public List<RideEntity> getRides() {
         return rides;

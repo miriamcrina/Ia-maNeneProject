@@ -1,47 +1,143 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+          integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+    <link type="text/css" rel="stylesheet" href="/css/login.css">
+    <link type="text/css" rel="stylesheet" href="/css/navBar.css">
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
+            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+            crossorigin="anonymous"></script>
     <title>Title</title>
 </head>
 <body>
-<h1> Cursa selectata </h1>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="/main">
+                <img src="/img/logo.png" alt="" width="30" height="24">
+            </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="/find-ride">Găsește o cursă <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link " href="/rides/add">Oferă o cursă</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Profilul tău
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/my-car">Mașina mea</a>
+                    <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
+                </div>
+            </li>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Statistici
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                        <a class="dropdown-item" href="/ride-statistic">Curse</a>
+                        <a class="dropdown-item" href="/booking-statistic">Rezervări</a>
+                        <a class="dropdown-item" href="/car-statistic">Mașini</a>
+                        <a class="dropdown-item" href="/user-statistic">Utilizatori</a>
+
+                    </div>
+                </li>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout">Ieși din cont</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<br>
+<br>
+
 <form th:action="@{'/booking-save/'+ ${selectedRide.getRideId()}}" method="post" th:object="${booking}">
-    <input type="hidden" id = "id" name ="id" th:field ="*{bookingModelId}">
-<table>
-    <tr>
-        <th>  Orasul de plecare</th>
-        <th > Orasul de sosire</th>
-        <th > Ora de plecare</th>
-        <th > Ora de Sosire</th>
-        <th > Numele soferului </th>
-        <th > Masina utilizata </th>
-        <th > Locuri disponibile </th>
-    </tr>
+    <h3 class="h3 mb-3 fw-normal" style="text-align: center"> Cursa selectată </h3>
+    <input type="hidden" id="id" name="id" th:field="*{bookingModelId}">
+    <br>
+    <table class="table table-hover table-sm" style="color: ">
+        <tbody>
+        <tr>
+            <th style="text-align: center"> Orașul de plecare</th>
+            <td th:text="${selectedRide.getDepartureCity()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Orașul de sosire</th>
+            <td th:text="${selectedRide.getArrivalCity()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Ora de plecare</th>
+            <td th:text="${selectedRide.getDepartureTime()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Ora de sosire</th>
+            <td th:text="${selectedRide.getArrivalTime()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Numele șoferului</th>
+            <td th:text="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Mașina utilizată</th>
+            <td th:text="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
+        </tr>
+        <tr>
+            <th style="text-align: center"> Locuri disponibile</th>
+            <td th:text="${selectedRide.getAvailableSeats()}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <div class="text-center">
+        <div class="form-signin">
 
-    <tr >
+            <label>
+                <input type="hidden" id="rideId" th:name="rideId"
+                       th:value="${booking.getRideId() != null} ? ${booking.getRideId()} : ${selectedRide.getRideId()}"/>
+            </label>
 
-        <td th:text ="${selectedRide.getDepartureCity()}"></td>
-        <td th:text ="${selectedRide.getArrivalCity()}"></td>
-        <td th:text ="${selectedRide.getDepartureTime()}"></td>
-        <td th:text ="${selectedRide.getArrivalTime()}"></td>
-        <td th:text ="${selectedDriver.getName() + ' ' + selectedDriver.getSurname()}"></td>
-        <td th:text ="${selectedCar.getCarMake()+ ' ' +selectedCar.getCarModel()}"></td>
-        <td th:text ="${selectedRide.getAvailableSeats()}"></td>
-
-    </tr>
-</table>
-    <label>
-        <input type="hidden" id= "rideId" th:name="rideId"
-               th:value="${booking.getRideId() != null} ? ${booking.getRideId()} : ${selectedRide.getRideId()}"/>
-    </label>
-
-         <label for="bookedSeats"> Cate locuri doresti sa rezervi? </label><br>
-         <input type="number" id="bookedSeats" th:name="bookedSeats" th:min="1" th:max="${selectedRide.getAvailableSeats()}">
-        <br>
-        <br>
-    <input type="submit" value="Salveaza"> <br>
+            <h4 class="h4 mb-3 fw-normal" style="text-align: center; color: whitesmoke"> Câte locuri rezervi? </h4>
+            <input type="number" id="bookedSeats" class="form-control" th:name="bookedSeats" th:min="1"
+                   th:max="${selectedRide.getAvailableSeats()}">
+            <br>
+            <br>
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Salvează"> <br>
+        </div>
+    </div>
 </form>
+<div id="footer">
+    <footer class="footer">
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
 
+    </footer>
+</div>
 </body>
 </html>

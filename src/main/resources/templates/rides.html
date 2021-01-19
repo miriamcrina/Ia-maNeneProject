@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -8,75 +9,153 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link type="text/css" rel="stylesheet" href="/css/login.css">
+    <link type="text/css" rel="stylesheet" href="/css/navBar.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
-            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+            integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
-            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN" crossorigin="anonymous"></script>
+            integrity="sha384-9/reFTGAW83EW2RDu2S0VKaIzap3H66lZH81PoYlFhbGU+6BZp6G7niu735Sk7lN"
+            crossorigin="anonymous"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.min.js"
-            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s" crossorigin="anonymous"></script>
+            integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
+            crossorigin="anonymous"></script>
     <title>Title</title>
 </head>
 <body>
-    <h3>Curse oferite</h3>
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
 
-    <table th:if="${not #lists.isEmpty(user.getRides())}">
-    <tr>
-        <th> Nr. Crt.</th>
-        <th> Orasul de plecare</th>
-        <th> Orasul de sosire</th>
-        <th> Data</th>
-    </tr>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
 
-    <tr th:each=" ride,iter : ${user.getRides()}">
-        <td th:utext="${iter.count}"></td>
-        <td th:text="${ride.getDepartureCity()}"></td>
-        <td th:text="${ride.getArrivalCity()}"></td>
-        <td th:text="${ride.getDepartureDate()}"></td>
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="/main">
+                <img src="/img/logo.png" alt="" width="30" height="24">
+            </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="/find-ride">Găsește o cursă <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link " href="/rides/add">Oferă o cursă</a>
+            </li>
 
-        <td>
-<!--            <a th:href="@{'/edit-ride/' + ${ride.getRideId()}}"> Modifica datele </a> <br>-->
-            <a th:href="@{'/delete-ride/' + ${ride.getRideId()}}"> Sterge cursa </a>
-        </td>
-    </tr>
-</table>
-    <div th:unless="${not #lists.isEmpty(user.getRides())}" class="text-center">
-        <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="250" height="100">
-        <h5 class="h5 mb-3 fw-normal" style="text-align: center" >
-            Pana acum nu ai oferit nicio cursa.</h5>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Profilul tău
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/my-car">Mașina mea</a>
+                    <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
+                </div>
+            </li>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Statistici
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                        <a class="dropdown-item" href="/ride-statistic">Curse</a>
+                        <a class="dropdown-item" href="/booking-statistic">Rezervări</a>
+                        <a class="dropdown-item" href="/car-statistic">Mașini</a>
+                        <a class="dropdown-item" href="/user-statistic">Utilizatori</a>
+
+                    </div>
+                </li>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout">Ieși din cont</a>
+            </li>
+        </ul>
+
     </div>
-
-    <h3>Curse rezervate</h3>
-
-<table th:if="${not #lists.isEmpty(user.getBookingList())}">
-
-    <tr>
-        <th> Nr. Crt.</th>
-        <th> Orasul de plecare</th>
-        <th> Orasul de sosire</th>
-        <th> Data</th>
-        <th> Locuri rezervate</th>
-    </tr>
-
-    <tr th:each=" rideBooked,iter : ${user.getBookingList()}">
-        <td th:utext="${iter.count}"></td>
-        <td th:text="${rideBooked.getRide().getDepartureCity()}"></td>
-        <td th:text="${rideBooked.getRide().getArrivalCity()}"></td>
-        <td th:text="${rideBooked.getRide().getDepartureDate()}"></td>
-        <td th:text="${rideBooked.getBookedSeats()}" th:name="bookedSeats"
-            th:value="${rideBooked.getBookedSeats()}"></td>
-
-        <td>
-            <a th:href="@{'/delete-booking/' + ${rideBooked.getBookingId()}}"> Anuleaza rezervarea </a>
-        </td>
-    </tr>
-</table>
-    <div th:unless="${not #lists.isEmpty(user.getBookingList())}" class="text-center">
-        <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="250" height="100">
-        <h5 class="h5 mb-3 fw-normal" style="text-align: center" >
-            Pana acum nu ai rezervat nicio cursa.</h5>
-    </div>
-
+</nav>
 <br>
+<br>
+<div class="text-center">
+    <h3 class="h3 mb-3 fw-normal"> Curse oferite </h3>
+    <br>
+    <table th:if="${not #lists.isEmpty(user.getRides())}" class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col"> Nr. crt.</th>
+            <th scope="col"> Orașul de plecare</th>
+            <th scope="col"> Orașul de sosire</th>
+            <th scope="col"> Data</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tr th:each=" ride,iter : ${user.getRides()}">
+            <th scope="row" th:utext="${iter.count}"></th>
+            <td scope="row" th:text="${ride.getDepartureCity()}"></td>
+            <td scope="row" th:text="${ride.getArrivalCity()}"></td>
+            <td scope="row" th:text="${ride.getDepartureDate()}"></td>
+
+            <td scope="row">
+                <a style="color: white" th:href="@{'/delete-ride/' + ${ride.getRideId()}}"> Șterge cursa </a>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<div th:unless="${not #lists.isEmpty(user.getRides())}" class="text-center">
+    <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="250" height="100">
+    <h5 class="h5 mb-3 fw-normal" style="text-align: center">
+        Până acum nu ai oferit nicio cursă.</h5>
+</div>
+<br>
+<hr>
+<br>
+<div class="text-center">
+    <h3 class="h3 mb-3 fw-normal"> Curse rezervate </h3>
+    <br>
+
+    <table th:if="${not #lists.isEmpty(user.getBookingList())}" class="table  table-hover">
+        <thead>
+        <tr>
+            <th scope="col"> Nr. crt.</th>
+            <th scope="col"> Orașul de plecare</th>
+            <th scope="col"> Orașul de sosire</th>
+            <th scope="col"> Data</th>
+            <th scope="col"> Ora</th>
+            <th scope="col"> Locuri rezervate</th>
+            <th scope="col"> Contact</th>
+            <th scope="col"></th>
+        </tr>
+        </thead>
+        <tr th:each=" rideBooked,iter : ${user.getBookingList()}">
+            <th scope="row" th:utext="${iter.count}"></th>
+            <td scope="row" th:text="${rideBooked.getRide().getDepartureCity()}"></td>
+            <td scope="row" th:text="${rideBooked.getRide().getArrivalCity()}"></td>
+            <td scope="row" th:text="${rideBooked.getRide().getDepartureDate()}"></td>
+            <td scope="row" th:text="${rideBooked.getRide().getDepartureTime()}"></td>
+            <td scope="row" th:text="${rideBooked.getBookedSeats()}" th:name="bookedSeats"
+                th:value="${rideBooked.getBookedSeats()}"></td>
+            <td scope="row"
+                th:text="${rideBooked.getRide().getUser().getName()+ ' ' + rideBooked.getRide().getUser().getPhoneNumber()}"></td>
+
+            <td scope="row">
+                <a style="color: white" th:href="@{'/delete-booking/' + ${rideBooked.getBookingId()}}"> Anulează
+                    rezervarea </a>
+            </td>
+        </tr>
+    </table>
+</div>
+<div th:unless="${not #lists.isEmpty(user.getBookingList())}" class="text-center">
+    <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="250" height="100">
+    <h4 class="h4 mb-3 fw-normal" style="text-align: center">
+        Până acum nu ai rezervat nicio cursă.</h4>
+</div>
+<br>
+<footer id="footer">
+    <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
+    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
+    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
+    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
+</footer>
 </body>
 </html>

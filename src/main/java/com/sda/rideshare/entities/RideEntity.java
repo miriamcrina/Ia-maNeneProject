@@ -52,7 +52,7 @@ public class RideEntity {
     @Min (value = 1, message = "Numarul de locuri oferit trebuie sa fie minim 1.")
     @Max(value = 7, message = "Numarul de locuri oferit nu poate depasi 7.")
     private Integer passengerNumber;
-    @NotNull
+
     private Integer availableSeats;
 
 

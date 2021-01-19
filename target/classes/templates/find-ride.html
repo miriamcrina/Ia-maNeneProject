@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -31,27 +32,24 @@
                 <img src="/img/logo.png" alt="" width="30" height="24">
             </a>
             <li class="nav-item active">
-                <a class="nav-link"  href="/find-ride">Gaseste o cursa <span class="sr-only">(current)</span></a>
+                <a class="nav-link"  href="/find-ride">Găsește o cursă <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link " href="/rides/add">Ofera o cursa</a>
+                <a class="nav-link " href="/rides/add">Oferă o cursă</a>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Profilul tau
+                    Profilul tău
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <!--                        <li><a class="dropdown-item" href="#">Adauga poza de profil</a></li>-->
-                    <a class="dropdown-item" href="/my-car">Masina mea</a>
+                    <a class="dropdown-item" href="/my-car">Mașina mea</a>
                     <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
-                    <!--                        <li><a class="dropdown-item" href="#">Notificari</a></li>-->
-                    <!--                        <li><hr class="dropdown-divider"></li>-->
-                    <!--                        <li><a class="dropdown-item" href="#">Ceva</a></li>-->
+
                 </div>
             </li>
             <li class="nav-item">
-                <a class="nav-link active" href="/logout">Iesi din cont</a>
+                <a class="nav-link active" href="/logout">Ieși din cont</a>
             </li>
         </ul>
 
@@ -64,29 +62,34 @@
 <main class="form-signin">
     <form method="get" th:action="@{/found-rides}">
     <img class="mb-4" src="/img/photo3.jpg" alt="" width="300" height="100">
-    <h1 class="h3 mb-3 fw-normal">Unde vrei sa mergi?</h1>
+    <h1 class="h3 mb-3 fw-normal">Unde vrei să mergi?</h1>
 
 
-<!--    <label for="departureCity">Orasul de plecare</label>-->
-    <input type="text" id="departureCity" class="form-control" placeholder="Orasul de plecare" th:name="departureCity" >
+    <input type="text" id="departureCity" class="form-control" placeholder="Orașul de plecare" th:name="departureCity" >
     <br>
 
-<!--    <label for="arrivalCity"> Orasul de sosire</label>-->
-    <input type="text" id="arrivalCity" class="form-control" placeholder="Orasul de sosire" th:name="arrivalCity">
+
+    <input type="text" id="arrivalCity" class="form-control" placeholder="Orașul de sosire" th:name="arrivalCity">
     <br>
 
-<!--    <label for="departureDate">Data de plecare</label>-->
+
     <input type="date" id="departureDate"  class="form-control" placeholder="Data" th:name="departureDate" >
     <br>
 
 
-        <input class="w-100 btn btn-lg btn-primary" type="submit" value="Cauta">
+        <input class="w-100 btn btn-lg btn-primary" type="submit" value="Caută">
         <br>
-    <footer>
-        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-ma, nene - 2021</p>
-    </footer>
 </form>
 </main>
+</div>
+<div id ="footer">
+    <footer class="footer">
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
+
+    </footer>
 </div>
 <script>
     $(function(){

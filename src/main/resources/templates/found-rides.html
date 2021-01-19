@@ -1,4 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -6,7 +8,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
-    <link type="text/css" rel="stylesheet" href="/css/basic.css">
+    <link type="text/css" rel="stylesheet" href="/css/login.css">
+    <link type="text/css" rel="stylesheet" href="/css/smallPageConfig.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
@@ -20,16 +23,70 @@
     <title>Title</title>
 </head>
 <body>
-<h1 class="h3 mb-3 fw-normal" style="text-align: center"> Cursele gasite </h1>
-<table class="table table-striped table-hover" th:if="${not #lists.isEmpty(foundRides)}">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <a class="navbar-brand" href="/main">
+                <img src="/img/logo.png" alt="" width="30" height="24">
+            </a>
+            <li class="nav-item active">
+                <a class="nav-link" href="/find-ride">Găsește o cursă <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item active">
+                <a class="nav-link " href="/rides/add">Oferă o cursă</a>
+            </li>
+
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
+                   aria-haspopup="true" aria-expanded="false">
+                    Profilul tău
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+                    <a class="dropdown-item" href="/my-car">Mașina mea</a>
+                    <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
+                </div>
+            </li>
+            <div sec:authorize="hasAuthority('ADMIN')">
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink1"
+                       data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Statistici
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
+                        <a class="dropdown-item" href="/ride-statistic">Curse</a>
+                        <a class="dropdown-item" href="/booking-statistic">Rezervări</a>
+                        <a class="dropdown-item" href="/car-statistic">Mașini</a>
+                        <a class="dropdown-item" href="/user-statistic">Utilizatori</a>
+
+                    </div>
+                </li>
+            </div>
+            <li class="nav-item">
+                <a class="nav-link active" href="/logout">Ieși din cont</a>
+            </li>
+        </ul>
+
+    </div>
+</nav>
+<br>
+<br>
+<h3 class="h3 mb-3 fw-normal" style="text-align: center"> Cursele găsite </h3>
+<table class="table table-hover" th:if="${not #lists.isEmpty(foundRides)}">
     <thead>
     <tr>
         <th scope="col"> #</th>
-        <th scope="col"> Orasul de plecare</th>
-        <th scope="col"> Orasul de sosire</th>
+        <th scope="col"> Orașul de plecare</th>
+        <th scope="col"> Orașul de sosire</th>
         <th scope="col"> Data</th>
         <th scope="col"> Ora de plecare</th>
         <th scope="col"> Locuri disponibile</th>
+        <th scope="col"></th>
     </tr>
     </thead>
     <tbody>
@@ -42,7 +99,7 @@
         <td scope="row" th:text="${foundRide.getAvailableSeats()}"></td>
 
         <td scope="row">
-            <a scope="row" th:href="@{'/select-ride/' + ${foundRide.getRideId()}}"> Selecteaza </a> <br>
+            <a scope="row" th:href="@{'/select-ride/' + ${foundRide.getRideId()}}"> Selectează </a> <br>
 
         </td>
     </tr>
@@ -53,7 +110,14 @@
         Deocamdată, nu există nicio cursă<br>
         cu plecare pe acest traseu :(</h3>
 </div>
-
-<br>
 </body>
+<footer id="footer">
+    <div class="footer">
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
+
+    </div>
+</footer>
 </html>

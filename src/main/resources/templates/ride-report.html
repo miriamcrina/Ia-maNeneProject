@@ -50,7 +50,6 @@
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
                     <a class="dropdown-item" href="/my-car">Mașina mea</a>
                     <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
-
                 </div>
             </li>
             <div sec:authorize="hasAuthority('ADMIN')">
@@ -68,7 +67,6 @@
                     </div>
                 </li>
             </div>
-
             <li class="nav-item">
                 <a class="nav-link active" href="/logout">Ieși din cont</a>
             </li>
@@ -77,51 +75,49 @@
     </div>
 </nav>
 <br>
-<div class="text-center">
-    <h1 class="h1 mb-3 fw-normal" style="font-weight: 700; font-size: 50px" id="congrats"> Felicitări!</h1>
+<br>
+<h3 class="h3 mb-3 fw-normal" style="text-align: center"> Cursele găsite pentru intervalul selectat </h3>
+<table class="table table-hover" th:if="${not #lists.isEmpty(allRides)}">
+    <thead>
+    <tr>
+        <th scope="col"> #</th>
+        <th scope="col"> Orașul de plecare</th>
+        <th scope="col"> Orașul de sosire</th>
+        <th scope="col"> Data</th>
+        <th scope="col"> Ora de plecare</th>
+        <th scope="col"> Locuri disponibile</th>
+        <th scope="col"></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="foundRide,iter : ${allRides}">
+        <th scope="row" th:utext="${iter.count}"></th>
+        <td scope="row" th:text="${foundRide.getDepartureCity()}"></td>
+        <td scope="row" th:text="${foundRide.getArrivalCity()}"></td>
+        <td scope="row" th:text="${foundRide.getDepartureDate()}"></td>
+        <td scope="row" th:text="${foundRide.getDepartureTime()}"></td>
+        <td scope="row" th:text="${foundRide.getAvailableSeats()}"></td>
 
-    <h3>Ai rezervat cu succes următoarea cursă: </h3>
-    <br>
+        <!--        <td scope="row">-->
+        <!--            <a scope="row" th:href="@{'/admin-delete-ride/' + ${foundRide.getRideId()}}"> Șterge cursa </a> <br>-->
 
-    <table class="table  table-hover">
-        <tr>
-            <th scope="col"> Orașul de plecare</th>
-            <th scope="col"> Orașul de sosire</th>
-            <th scope="col"> Ora de plecare</th>
-            <th scope="col"> Ora de sosire</th>
-            <th scope="col"> Locuri rezervate</th>
-        </tr>
-
-        <tr>
-            <td scope="row" th:text="${selectedRide.getDepartureCity()}"></td>
-            <td scope="row" th:text="${selectedRide.getArrivalCity()}"></td>
-            <td scope="row" th:text="${selectedRide.getDepartureTime()}"></td>
-            <td scope="row" th:text="${selectedRide.getArrivalTime()}"></td>
-            <td scope="row" th:text="${booking.getBookedSeats()}"></td>
-
-
-        </tr>
-    </table>
+        <!--        </td>-->
+    </tr>
+</table>
+<div th:unless="${not #lists.isEmpty(allRides)}" class="text-center">
+    <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="250" height="100">
+    <h3 class="h3 mb-3 fw-normal" style="text-align: center">
+        Nu există nicio cursă<br>
+        pentru intervalul selectat :(</h3>
 </div>
-<br>
-<br>
-<br>
-<div style="font-size:20px; color:black; text-align: center;">
-    <p style="font-weight: 500"> Poți lua legătura cu <span style="color: black; font-weight: 600;"
-                                                            th:text="${selectedDriver.getName()}"></span> la numărul de
-        telefon: <span style="color: black; font-weight: 600; text-decoration: underline;"
-                       th:text="${selectedDriver.getPhoneNumber()}"></span>.</p>
-    <p>Aceste detalii le vei regăsi și în secțiunea '<a href="/my-rides" style="color: black"> Istoricul curselor - Curse
-        rezervate</a>'.</p>
-</div>
-<br>
-<br>
-<br>
 </body>
 <footer id="footer">
-    <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
-    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
-    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
-    <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
+    <div class="footer">
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
+
+    </div>
 </footer>
 </html>

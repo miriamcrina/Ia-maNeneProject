@@ -22,12 +22,12 @@ public class UserEntity {
 
     @NotBlank(message = "Campul nu poate fi gol")
     @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
-    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
+    @Size(min = 3, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String surname;
 
     @NotBlank(message = "Campul nu poate fi gol")
     @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
-    @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
+    @Size(min = 3, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
     private String name;
 
     @Past(message = "Data introdusa este incorecta.")
@@ -43,6 +43,9 @@ public class UserEntity {
     private String username;
 
     private Boolean enabled;
+
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
+    private LocalDate registrationDate;
 
     @NotBlank(message = "Campul nu poate fi gol")
     private String password;
@@ -61,6 +64,14 @@ public class UserEntity {
 
 
     public UserEntity() {
+    }
+
+    public LocalDate getRegistrationDate() {
+        return registrationDate;
+    }
+
+    public void setRegistrationDate(LocalDate registrationDate) {
+        this.registrationDate = registrationDate;
     }
 
     public List<BookingEntity> getBookingList() {

@@ -1,5 +1,6 @@
 package com.sda.rideshare.controllers;
 
+import com.sda.rideshare.entities.BookingEntity;
 import com.sda.rideshare.entities.CarEntity;
 import com.sda.rideshare.entities.UserEntity;
 import com.sda.rideshare.repositories.CarRepository;
@@ -7,16 +8,16 @@ import com.sda.rideshare.repositories.UserRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.validation.Valid;
+import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -43,7 +44,9 @@ public class CarController extends BaseController{
         ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
 
         if(bindingResult.hasErrors()) {
+
             modelAndView.setViewName("car-form");
+            carEntity.setAddDate(LocalDate.now());
             modelAndView.addObject("car", carEntity);
             return modelAndView;
         }
@@ -55,6 +58,7 @@ public class CarController extends BaseController{
             userEntity = userRepository.getUserByUsername(username);
 
         }
+        carEntity.setAddDate(LocalDate.now());
         carEntity.setUser(userEntity);
         carRepository.save(carEntity);
         return modelAndView;
@@ -83,11 +87,26 @@ public class CarController extends BaseController{
         return modelAndView;
     }
 
-    @GetMapping("/delete-car/{id}")
-    public ModelAndView deleteCar (@PathVariable Integer id) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
-        carRepository.deleteById(id);
+    @GetMapping("/car-statistic")
+    public ModelAndView getAllCars() {
+        ModelAndView modelAndView = new ModelAndView("car-statistic-form");
         return modelAndView;
     }
+
+    @GetMapping("/car-report")
+    public ModelAndView getAllFoundCars(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                            @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        ModelAndView modelAndView = new ModelAndView("car-report");
+        List<CarEntity> cars = carRepository.getAllByAddDateBetween(startDate, endDate);
+        modelAndView.addObject("allCars", cars);
+        return modelAndView;
+    }
+//    @GetMapping("/delete-car/{id}")
+//    public ModelAndView deleteCar (@PathVariable Integer id) {
+//        ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
+//        carRepository.deleteById(id);
+//        return modelAndView;
+//    }
 
 }

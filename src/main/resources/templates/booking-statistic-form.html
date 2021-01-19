@@ -21,7 +21,6 @@
             integrity="sha384-w1Q4orYjBQndcko6MimVbzY0tgp4pWB4lZ7lr30WKz0vr/aWKhXdBNmNb5D92v7s"
             crossorigin="anonymous"></script>
     <title>Title</title>
-
 </head>
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light" id="navBar">
@@ -77,94 +76,29 @@
 </nav>
 <br>
 <br>
+<br>
 <div class="text-center">
     <main class="form-signin">
-        <form method="post" action="/rides/save" th:object="${modelRide}">
-            <img class="mb-4" src="/img/rasnov-fortress.jpg" alt="" width="300" height="100">
-            <h1 class="h3 mb-3 fw-normal"> Cursa ta </h1>
-
-            <input type="hidden" id="id" name="id" th:field="*{rideId}">
-
-            <span style="color: red" th:if=" ${#fields.hasErrors('departureCity')}"
-                  th:each="err,stat:${#fields.errors('departureCity')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="text" id="departureCity" name="departureCity" class="form-control"
-                   placeholder="Orașul de plecare" th:field="*{departureCity}">
+        <form method="get" th:action="@{/booking-report}">
+            <h1 class="h2 mb-3 fw-normal">Rezervări -  Statistici</h1>
             <br>
 
-            <span style="color: red" th:if=" ${#fields.hasErrors('departureStreetAndNumber')}"
-                  th:each="err,stat:${#fields.errors('departureStreetAndNumber')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="text" id="departureStreet" name="departureStreet" class="form-control"
-                   placeholder="Strada și numărul" th:field="*{departureStreetAndNumber}">
-            <br>
+            <h1 class="h3 mb-3 fw-normal">Date de căutare</h1>
 
-            <span style="color: red" th:if=" ${#fields.hasErrors('arrivalCity')}"
-                  th:each="err,stat:${#fields.errors('arrivalCity')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="text" id="arrivalCity" name="arrivalCity" class="form-control" placeholder="Orașul de sosire"
-                   th:field="*{arrivalCity}">
+
+            <input type="date" id="startDate" class="form-control" placeholder="Început" th:name="startDate">
             <br>
 
 
-            <span style="color: red" th:if=" ${#fields.hasErrors('arrivalStreetAndNumber')}"
-                  th:each="err,stat:${#fields.errors('arrivalStreetAndNumber')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="text" id="arrivalStreet" name="arrivalStreet" class="form-control"
-                   placeholder="Strada și numărul" th:field="*{arrivalStreetAndNumber}">
-            <br>
-
-            <span style="color: red" th:if=" ${#fields.hasErrors('departureDate')}"
-                  th:each="err,stat:${#fields.errors('departureDate')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="date" id="departureDate" name="departureDate" class="form-control"
-                   placeholder="Data de plecare" th:field="*{departureDate}">
+            <input type="date" id="endDate" class="form-control" placeholder="Sfârșit" th:name="endDate">
             <br>
 
 
-            <input type="time" id="departureTime" name="departureTime" class="form-control" placeholder="Ora de plecare"
-                   th:field="*{departureTime}">
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Caută">
             <br>
-
-
-            <input type="time" id="arrivalTime" name="arrivalTime" class="form-control"
-                   placeholder="Ora de sosire estimată" th:field="*{arrivalTime}">
-            <br>
-
-            <span style="color: red" th:if=" ${#fields.hasErrors('passengerNumber')}"
-                  th:each="err,stat:${#fields.errors('passengerNumber')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <input type="number" id="passengerNumber" name="passengerNumber" class="form-control"
-                   placeholder="Numărul de pasageri" th:field="*{passengerNumber}">
-
-
-            <span style="color: red" th:if=" ${#fields.hasErrors('carEntity')}"
-                  th:each="err,stat:${#fields.errors('carEntity')}"
-                  th:utext="!${stat.last}?${err} +'<br>' : ${err}">
-    </span>
-            <br>
-            <select class="form-control" th:field="*{carEntity}" id="usedCar" name="usedCar">
-                <option value="">Selectează mașina</option>
-                <option
-                        th:each="car : ${user.getCars()}"
-                        th:value="${car.getCarId()}"
-                        th:text="${car.getCarMake() + ' ' + car.getCarModel()}"></option>
-            </select>
-
-            <br>
-
-            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Creează cursa">
-
         </form>
     </main>
 </div>
-
 <div id="footer">
     <footer class="footer">
         <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
@@ -174,25 +108,5 @@
 
     </footer>
 </div>
-
-
-<script>
-    $(function () {
-        var dtToday = new Date();
-        var month = dtToday.getMonth() + 1;
-        var day = dtToday.getDate();
-        var year = dtToday.getFullYear();
-        if (month < 10)
-            month = '0' + month.toString();
-        if (day < 10)
-            day = '0' + day.toString();
-
-        var maxDate = year + '-' + month + '-' + day;
-        console.log(maxDate);
-        $('#departureDate').attr('min', maxDate);
-    });
-
-
-</script>
 </body>
 </html>

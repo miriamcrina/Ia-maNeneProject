@@ -34,6 +34,20 @@ public class MailService {
         }
     }
 
+    public void sendEmail (String email, String content) {
+        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+        try{
+            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
+            mimeMessageHelper.setFrom("noreply@baeldung.com");
+            mimeMessageHelper.setTo(email);
+            mimeMessageHelper.setSubject("Notificare - Ia-ma, Nene!");
+            mimeMessage.setContent(content, "text/html");
+            javaMailSender.send(mimeMessage);
+        }catch (Exception e) {
+            e.getMessage();
+        }
+    }
+
     private InternetAddress[] getInternetAddresses(List<String> emails) throws AddressException {
         InternetAddress[] internetAddresses = new InternetAddress[emails.size()];
         for (int i = 0; i < emails.size(); i++) {
@@ -49,7 +63,19 @@ public class MailService {
                     " Familia Ia-maNene ";
     }
 
-    public String getContent (RideEntity rideEntity, BookingEntity bookingEntity){
-        return " ";
+    public String getContentBooking (RideEntity rideEntity, BookingEntity bookingEntity){
+        return "Stimate client,<br><br> " +
+                bookingEntity.getUser().getName()+ " a rezervat " + bookingEntity.getBookedSeats()+ " loc/locuri pentru cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ ". <br>"+
+                 "Poti lua legatura cu el/ea la numarul de telefon: "+bookingEntity.getUser().getPhoneNumber()+ " .<br><br>"+
+                " Numai bine,<br> " +
+                " Familia Ia-maNene ";
+    }
+
+    public String getContentBookingCancellation (RideEntity rideEntity, BookingEntity bookingEntity){
+        return "Stimate client,<br><br> " +
+                bookingEntity.getUser().getName()+ " a  anulat rezervarea pentru cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ ". <br>"+
+                "Nu te descuraja! Alti membrii ai comunitatii pot apela la tine!<br><br>"+
+                " Numai bine,<br> " +
+                " Familia Ia-maNene ";
     }
 }

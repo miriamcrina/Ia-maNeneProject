@@ -40,9 +40,40 @@ body {
     background-color: white;
 }
 #footer{
-    display: block;
+    position: fixed;
     background-color: whitesmoke ;
     text-align: center !important;
-    margin-top: -10px;
-    margin-bottom: -20px;
+    bottom: 0;
+    width: 100%;
+}
+#carAdd{
+    color: whitesmoke;
+    font-weight: 500;
+    font-size: 18px;
+}
+#congrats {
+    background: 50% 100% / 50% 50% no-repeat
+radial-gradient(ellipse at bottom, #fff, transparent, transparent);
+-webkit-background-clip: text;
+background-clip: text;
+color: transparent;
+animation: reveal 3000ms ease-in-out forwards 200ms,
+                                                 glow 2500ms linear infinite 2000ms;}
+
+@keyframes reveal {
+    80%{
+        letter-spacing: 8px;
+    }
+    100% {
+        background-size: 300% 300%;
+    }
+}
+@keyframes glow {
+    80% {
+        text-shadow: 0 0 8px #fff;
+    }
+}
+
+#footer .mt-5 {
+    margin-top: 5px !important;
 }

@@ -24,11 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/main/*", "/login-submit", "/login-error","/css/*","/img/*")
+                .antMatchers("/","/login", "/register", "/main/*", "/login-submit", "/login-error","/css/*","/img/**")
                 .permitAll();
-        http.authorizeRequests()
-                .antMatchers()
-                .hasRole("ADMIN");
+//        http.authorizeRequests()
+//                .antMatchers()
+//                .hasRole("ADMIN");
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated();

@@ -9,7 +9,7 @@
           integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
 
     <link type="text/css" rel="stylesheet" href="/css/login.css">
-    <link type="text/css" rel="stylesheet" href="/css/smallPageConfig.css">
+    <link type="text/css" rel="stylesheet" href="/css/navBar.css">
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
             integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
@@ -71,52 +71,37 @@
 </nav>
 <br>
 <br>
-<div class="text-center">
-<h3 class="h3 mb-3 fw-normal"> Mașina mea </h3>
-
-
-<table th:if="${not #lists.isEmpty(user.getCars())}"  class="table table-hover">
-    <a id="carAdd" href="/add-car" > Adaugă o mașină</a>
-    <br>
-    <br>
-    <thead>
-    <tr>
-        <th scope="col">  Nr.</th>
-        <th scope="col"> Marca mașinii</th>
-        <th scope="col"> Model</th>
-        <th scope="col"> Nr. de înmatriculare</th>
-        <th scope="col"> </th>
-        <th scope="col"> </th>
-    </tr>
-    </thead>
-    <tr th:each = " car,iter : ${user.getCars()}">
-        <th scope="row" th:text ="${iter.count}"></th>
-        <td scope="row" th:text ="${car.getCarMake()}"></td>
-        <td scope="row" th:text ="${car.getCarModel()}"></td>
-        <td scope="row" th:text ="${car.getPlateNumber()}"></td>
-
-        <td scope="row">
-            <a style="color: white" th:href ="@{'/edit-car/' + ${car.getCarId()}}" > Modifică datele </a>
-        </td>
-    </tr>
-</table>
-
-</div>
-
-<div th:unless="${not #lists.isEmpty(user.getCars())}" class="text-center">
-    <img class="mb-4" style="align-content: center" src="/img/LOGO2.PNG" alt="" width="200" height="85">
-    <h5 class="h5 mb-3 fw-normal" style="text-align: center" >
-        Deocamdată, nu există nicio mașină pe profilul tău.</h5>
-    <h5 class="h5 mb-3 fw-normal" style="text-align: center" >Poți adăuga una accesând secțiunea<br>
-        <a style="color: whitesmoke; font-weight: 500" href="/add-car"> Adaugă o mașina</a></h5>
-</div>
 <br>
+<div class="text-center">
+    <main class="form-signin">
+        <form method="get" th:action="@{/car-report}">
+            <h2 class="h2 mb-3 fw-normal">Mașini - Statistici</h2>
+            <br>
 
-<footer id ="footer">
+            <h1 class="h3 mb-3 fw-normal">Date de căutare</h1>
+
+
+            <input type="date" id="startDate" class="form-control" placeholder="Început" th:name="startDate">
+            <br>
+
+
+            <input type="date" id="endDate"  class="form-control" placeholder="Sfârșit" th:name="endDate" >
+            <br>
+
+
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Caută">
+            <br>
+        </form>
+    </main>
+</div>
+<div id ="footer">
+    <footer class="footer">
         <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
         <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
         <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
         <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
-</footer>
+
+    </footer>
+</div>
 </body>
 </html>

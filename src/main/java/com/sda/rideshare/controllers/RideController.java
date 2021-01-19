@@ -35,7 +35,6 @@ public class RideController extends BaseController {
     @Autowired
     private RideRepository rideRepository;
 
-
     @Autowired
     private UserRepository userRepository;
 
@@ -62,19 +61,16 @@ public class RideController extends BaseController {
         modelAndView.addObject("modelRide", new RideEntity());
         return modelAndView;
     }
-
     @PostMapping("/rides/save")
-    public ModelAndView saveRide(@Valid @ModelAttribute("modelRide") RideEntity rideEntity, BindingResult bindingResult) {
-        ModelAndView modelAndView = new ModelAndView("redirect:/main");
-
+    public ModelAndView saveRide( @Valid @ModelAttribute("modelRide") RideEntity rideEntity, BindingResult bindingResult) {
+        ModelAndView modelAndView = new ModelAndView("redirect:/my-rides");
         if(bindingResult.hasErrors()) {
             modelAndView.setViewName("ride-form");
             Optional<User> user = getLoggedInUser();
-            UserEntity userEntity = null;
             Integer id = null;
             if (user.isPresent()) {
                 String username = user.get().getUsername();
-                userEntity = userRepository.getUserByUsername(username);
+                UserEntity  userEntity = userRepository.getUserByUsername(username);
                 id = userEntity.getUserId();
             }
             rideEntity.setAvailableSeats(rideEntity.getPassengerNumber());
@@ -87,7 +83,6 @@ public class RideController extends BaseController {
         if (user.isPresent()) {
             String username = user.get().getUsername();
             userEntity = userRepository.getUserByUsername(username);
-
         }
         rideEntity.setAvailableSeats(rideEntity.getPassengerNumber());
         rideEntity.setUser(userEntity);
@@ -144,61 +139,65 @@ public class RideController extends BaseController {
 
     }
 
-//    @GetMapping("/edit-ride/{id}")
-//    public ModelAndView editRide (@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("ride-form");
-//        Optional<User> user = getLoggedInUser();
-//        Integer userId = null;
-//        if (user.isPresent()) {
-//            String username = user.get().getUsername();
-//            UserEntity userEntity = userRepository.getUserByUsername(username);
-//            id = userEntity.getUserId();
-//        }
-//        modelAndView.addObject("user", userRepository.findById(userId).get());
-//        modelAndView.addObject("modelRide", rideRepository.findById(id).get());
-//        return modelAndView;
-////       /........????????????????????????????????????????????????????????????????????????????
-//    }
+    @GetMapping("/edit-ride/{id}")
+    public ModelAndView editRide (@PathVariable Integer id) {
+        ModelAndView modelAndView = new ModelAndView("ride-form");
+        Optional<User> user = getLoggedInUser();
+        Integer userId = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            UserEntity userEntity = userRepository.getUserByUsername(username);
+            id = userEntity.getUserId();
+        }
+        modelAndView.addObject("user", userRepository.findById(userId).get());
+        modelAndView.addObject("modelRide", rideRepository.findById(id).get());
+        return modelAndView;
+//       /........????????????????????????????????????????????????????????????????????????????
+    }
 
     @GetMapping("/delete-ride/{id}")
     public ModelAndView deleteRide(@PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/my-rides");
         RideEntity rideEntity = rideRepository.findById(id).get();
         List<BookingEntity> bookingList = rideEntity.getBookingList();
-        bookingList.forEach(bookingEntity -> bookingEntity.getUser().getEmail());
         List<String> emails = bookingList.stream().map(be-> be.getUser().getEmail()).collect(Collectors.toList());
         emails.add(rideEntity.getUser().getEmail());
         bookingRepository.deleteAll(bookingList);
         rideRepository.deleteById(id);
-//        MimeMessage mimeMessage = javaMailSender.createMimeMessage();
-//        try{
-//            InternetAddress[] internetAddresses = new InternetAddress[emails.size()];
-//            for (int i = 0; i < emails.size(); i++) {
-//                internetAddresses[i] = new InternetAddress(emails.get(i));
-//            }
-//            MimeMessageHelper mimeMessageHelper = new MimeMessageHelper(mimeMessage, true);
-//            mimeMessageHelper.setFrom("noreply@baeldung.com");
-//            mimeMessageHelper.setTo(internetAddresses);
-//            mimeMessageHelper.setSubject("Notificare - Ia-ma, Nene!");
-////            mimeMessageHelper.setText("Stimate client,\n " +
-////                    "Cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ " a fost anulata de catre "+
-////                    rideEntity.getUser().getName()+ ".\n Pentru alte curse pe acelasi traseu, va rugam sa verificati site-ul nostru.\n"+
-////                    " Numai bine,\n " +
-////                    " Familia Ia-maNene ");
-//            mimeMessage.setContent("Stimate client,<br> " +
-//                    "Cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ " a fost anulata de catre "+
-//                    rideEntity.getUser().getName()+ ".<br> Pentru alte curse pe acelasi traseu, va rugam sa verificati site-ul nostru.<br>"+
-//                    " Numai bine,<br> " +
-//                    " Familia Ia-maNene ", "text/html");
-//            javaMailSender.send(mimeMessage);
-//        }catch (Exception e) {
-//            e.getMessage();
-//        }
-        mailService.sendEmail(emails, mailService.getContent(rideEntity));
+//        mailService.sendEmail(emails, mailService.getContent(rideEntity));
 
         return modelAndView;
     }
 
 
+    @GetMapping("/ride-statistic")
+    public ModelAndView getAllRides() {
+        ModelAndView modelAndView = new ModelAndView("ride-statistic-form");
+        return modelAndView;
+    }
+
+    @GetMapping("/ride-report")
+    public ModelAndView getAllFoundRides(@RequestParam(value = "startDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
+                                      @RequestParam(value = "endDate") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate endDate) {
+
+        ModelAndView modelAndView = new ModelAndView("ride-report");
+        List<RideEntity> rides = rideRepository.getAllByDepartureDateBetween(startDate, endDate);
+        modelAndView.addObject("allRides", rides);
+        return modelAndView;
+    }
+
+//    @GetMapping("/admin-delete-ride/{id}")
+//    public ModelAndView deleteAdminRide(@PathVariable Integer id) {
+//        ModelAndView modelAndView = new ModelAndView("redirect:/ride-report");
+//        RideEntity rideEntity = rideRepository.findById(id).get();
+//        List<BookingEntity> bookingList = rideEntity.getBookingList();
+//        List<String> emails = bookingList.stream().map(be-> be.getUser().getEmail()).collect(Collectors.toList());
+//        emails.add(rideEntity.getUser().getEmail());
+//        bookingRepository.deleteAll(bookingList);
+//        rideRepository.deleteById(id);
+////        mailService.sendEmail(emails, mailService.getContent(rideEntity));
+//
+//        return modelAndView;
+//    }
 
 }
