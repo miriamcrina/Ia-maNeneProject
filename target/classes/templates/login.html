@@ -25,21 +25,21 @@
 <main class="form-signin">
 <form method="post" action="/login-submit">
     <img class="mb-4" src="/img/logo.png" alt="" width="72" height="57">
-    <h1 class="h3 mb-3 fw-normal">Intra in cont</h1>
+    <h1 class="h3 mb-3 fw-normal">Intră în cont</h1>
     <div th:if = "${errorMessage}" style="text-align: center; color: red" >
         <span th:text="${errorMessage}"></span>
     </div>
-<!--    <label for="username" class="visually-hidden">Nume utilizator</label>-->
+
     <input type="text" id ="username" name="username" class="form-control" placeholder="Nume utilizator" required autofocus>
-<!--    <label for="password" class="visually-hidden">Parola</label>-->
-    <input type="password" id="password" name="password" class="form-control" placeholder="Parola" required>
+
+    <input type="password" id="password" name="password" class="form-control" placeholder="Parolă" required>
 
     <label>
-        <input type="checkbox" value="remember-me"> Salveaza datele
+        <input type="checkbox" value="remember-me"> Salvează datele
     </label>
 
-    <input class="w-100 btn btn-lg btn-primary" type="submit" value="Conectare">
-    <p class="mt-5 mb-3 text-muted">&copy; Ia-ma, nene - 2021</p>
+    <input class="w-100 btn btn-lg btn-primary" type="submit" value="Conectează-te">
+    <p class="mt-5 mb-3 text-muted">&copy; Ia-mă, nene - 2021</p>
 </form>
 </main>
 

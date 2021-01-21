@@ -21,7 +21,7 @@
 <main class="form-signin">
     <form method="post" action="/register" th:object="${user}">
         <img class="mb-4" src="/img/logo.png" alt="" width="72" height="57">
-        <h1 class="h3 mb-3 fw-normal">Inregistrare</h1>
+        <h1 class="h3 mb-3 fw-normal">Înregistrare</h1>
 
 
     <input type="hidden" id = "id" name ="id" th:field ="*{userId}">
@@ -56,7 +56,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Data nasterii" required  th:readonly="${editMode}" th:field="*{dateOfBirth}">
+    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Data de naștere" required  th:readonly="${editMode}" th:field="*{dateOfBirth}">
     <br>
 
     <span style="color: red" th:if=" ${#fields.hasErrors('phoneNumber')}"
@@ -64,7 +64,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Numar de telefon" required  th:readonly="${editMode}" th:field="*{phoneNumber}">
+    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Număr de telefon" required  th:readonly="${editMode}" th:field="*{phoneNumber}">
     <br>
     <br>
 
@@ -81,15 +81,15 @@
           th:each="err,stat:${#fields.errors('password')}"
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
-    <input type="password" id="password" name="password" class="form-control" placeholder="Parola"  th:field="*{password}">
+    <input type="password" id="password" name="password" class="form-control" placeholder="Parolă"  th:field="*{password}">
     <br>
     <br>
 
-        <input class="w-100 btn btn-lg btn-primary" type="submit" value="Creeaza cont">
+        <input class="w-100 btn btn-lg btn-primary" type="submit" value="Creează cont">
 
 </form>
     <footer>
-        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-ma, nene - 2021</p>
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
     </footer>
 </main>
 <script>

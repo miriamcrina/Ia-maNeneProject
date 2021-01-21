@@ -37,19 +37,19 @@
                 <img src="/img/logo.png" alt="" width="30" height="24">
             </a>
             <li class="nav-item active">
-                <a class="nav-link" href="/find-ride">Gaseste o cursa <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="/find-ride">Găsește o cursă <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link " href="/rides/add">Ofera o cursa</a>
+                <a class="nav-link " href="/rides/add">Oferă o cursă</a>
             </li>
 
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown"
                    aria-haspopup="true" aria-expanded="false">
-                    Profilul tau
+                    Profilul tău
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
-                    <a class="dropdown-item" href="/my-car">Masina mea</a>
+                    <a class="dropdown-item" href="/my-car">Mașina mea</a>
                     <a class="dropdown-item" href="/my-rides">Istoricul curselor</a>
                 </div>
             </li>
@@ -61,15 +61,15 @@
                     </a>
                     <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink1">
                         <a class="dropdown-item" href="/ride-statistic">Curse</a>
-                        <a class="dropdown-item" href="/booking-statistic">Rezervari</a>
-                        <a class="dropdown-item" href="/car-statistic">Masini</a>
+                        <a class="dropdown-item" href="/booking-statistic">Rezervări</a>
+                        <a class="dropdown-item" href="/car-statistic">Mașini</a>
                         <a class="dropdown-item" href="/user-statistic">Utilizatori</a>
 
                     </div>
                 </li>
             </div>
             <li class="nav-item">
-                <a class="nav-link active" href="/logout">Iesi din cont</a>
+                <a class="nav-link active" href="/logout">Ieși din cont</a>
             </li>
         </ul>
 
@@ -90,7 +90,7 @@
                   th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
             <input type="text" id="departureCity" name="departureCity" class="form-control"
-                   placeholder="Orasul de plecare" th:field="*{departureCity}">
+                   placeholder="Orașul de plecare" th:field="*{departureCity}">
             <br>
 
             <span style="color: red" th:if=" ${#fields.hasErrors('departureStreetAndNumber')}"
@@ -98,14 +98,14 @@
                   th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
             <input type="text" id="departureStreet" name="departureStreet" class="form-control"
-                   placeholder="Strada si numarul" th:field="*{departureStreetAndNumber}">
+                   placeholder="Strada și numărul" th:field="*{departureStreetAndNumber}">
             <br>
 
             <span style="color: red" th:if=" ${#fields.hasErrors('arrivalCity')}"
                   th:each="err,stat:${#fields.errors('arrivalCity')}"
                   th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
-            <input type="text" id="arrivalCity" name="arrivalCity" class="form-control" placeholder="Orasul de sosire"
+            <input type="text" id="arrivalCity" name="arrivalCity" class="form-control" placeholder="Orașul de sosire"
                    th:field="*{arrivalCity}">
             <br>
 
@@ -115,7 +115,7 @@
                   th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
             <input type="text" id="arrivalStreet" name="arrivalStreet" class="form-control"
-                   placeholder="Strada si numarul" th:field="*{arrivalStreetAndNumber}">
+                   placeholder="Strada și numărul" th:field="*{arrivalStreetAndNumber}">
             <br>
 
             <span style="color: red" th:if=" ${#fields.hasErrors('departureDate')}"
@@ -133,7 +133,7 @@
 
 
             <input type="time" id="arrivalTime" name="arrivalTime" class="form-control"
-                   placeholder="Ora de sosire estimata" th:field="*{arrivalTime}">
+                   placeholder="Ora de sosire estimată" th:field="*{arrivalTime}">
             <br>
 
             <span style="color: red" th:if=" ${#fields.hasErrors('passengerNumber')}"
@@ -141,7 +141,7 @@
                   th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
             <input type="number" id="passengerNumber" name="passengerNumber" class="form-control"
-                   placeholder="Numarul de pasageri" th:field="*{passengerNumber}">
+                   placeholder="Numărul de pasageri" th:field="*{passengerNumber}">
 
 
             <span style="color: red" th:if=" ${#fields.hasErrors('carEntity')}"
@@ -150,7 +150,7 @@
     </span>
             <br>
             <select class="form-control" th:field="*{carEntity}" id="usedCar" name="usedCar">
-                <option value="">Selecteaza masina</option>
+                <option value="">Selectează mașina</option>
                 <option
                         th:each="car : ${user.getCars()}"
                         th:value="${car.getCarId()}"
@@ -159,7 +159,7 @@
 
             <br>
 
-            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Creeaza cursa">
+            <input class="w-100 btn btn-lg btn-primary" type="submit" value="Creează cursa">
 
         </form>
     </main>
@@ -167,9 +167,9 @@
 
 <div id="footer">
     <footer class="footer">
-        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-ma, nene - 2021</p>
+        <p class="mt-5 mb-3 text-muted" style="text-align: center">&copy; Ia-mă, nene - 2021</p>
         <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Contact</a> |
-        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni si conditii</a> |
+        <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
         <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
 
     </footer>
