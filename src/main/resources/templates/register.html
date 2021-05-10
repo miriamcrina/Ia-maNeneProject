@@ -32,7 +32,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" required autofocus th:readonly="${editMode}" th:field="*{email}">
+    <input type="email" id="email" name="email" class="form-control" placeholder="E-mail" required autofocus th:field="*{email}">
     <br>
 
     <span style="color: red" th:if=" ${#fields.hasErrors('name')}"
@@ -40,7 +40,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="text" id="name" name="name" class="form-control" placeholder="Prenume" required  th:readonly="${editMode}" th:field="*{name}">
+    <input type="text" id="name" name="name" class="form-control" placeholder="Prenume" required  th:field="*{name}">
     <br>
 
     <span style="color: red" th:if=" ${#fields.hasErrors('surname')}"
@@ -48,7 +48,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="text" id="surname" name="surname"  class="form-control" placeholder="Nume" required s th:readonly="${editMode}" th:field="*{surname}">
+    <input type="text" id="surname" name="surname"  class="form-control" placeholder="Nume" required th:field="*{surname}">
     <br>
 
     <span style="color: red" th:if=" ${#fields.hasErrors('dateOfBirth')}"
@@ -56,7 +56,7 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Data de naștere" required  th:readonly="${editMode}" th:field="*{dateOfBirth}">
+    <input type="date" id="dateOfBirth" name="dateOfBirth" class="form-control" placeholder="Data de naștere" required  th:field="*{dateOfBirth}">
     <br>
 
     <span style="color: red" th:if=" ${#fields.hasErrors('phoneNumber')}"
@@ -64,10 +64,8 @@
           th:utext="!${stat.last}?${err} +'<br>' : ${err}">
     </span>
     <br>
-    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Număr de telefon" required  th:readonly="${editMode}" th:field="*{phoneNumber}">
+    <input type="number" id="phoneNumber" name="phoneNumber" class="form-control" placeholder="Număr de telefon" required  th:field="*{phoneNumber}">
     <br>
-    <br>
-
 
     <span style="color: red" th:if=" ${#fields.hasErrors('username')}"
           th:each="err,stat:${#fields.errors('username')}"

@@ -12,7 +12,8 @@ import java.util.Properties;
 @SpringBootApplication
 @ComponentScan("com.sda.rideshare")
 @Import({DatabaseConfig.class, WebSecurityConfig.class})
-public class AppConfig {
+public class
+AppConfig {
 
     @Bean
     public JavaMailSender getJavaMailSender() {

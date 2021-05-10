@@ -24,15 +24,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
 
         http.authorizeRequests()
-                .antMatchers("/","/login", "/register", "/main/*", "/login-submit", "/login-error","/css/*","/img/**")
+                .antMatchers("/","/login", "/register", "/login-submit", "/login-error","/css/*","/img/**")
                 .permitAll();
-//        http.authorizeRequests()
-//                .antMatchers()
-//                .hasRole("ADMIN");
         http.authorizeRequests()
                 .anyRequest()
                 .authenticated();
-//        http.httpBasic();
         http.formLogin()
                 .loginPage("/login")
                 .loginProcessingUrl("/login-submit")
@@ -47,8 +43,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         auth.jdbcAuthentication()
                 .dataSource(this.dataSource).passwordEncoder(passwordEncoder());
-//        System.out.println(passwordEncoder().encode("crina"));
-//        System.out.println(passwordEncoder().encode("ana"));
     }
 
     @Bean

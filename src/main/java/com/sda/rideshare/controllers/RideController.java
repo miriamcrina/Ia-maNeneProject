@@ -10,20 +10,15 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.annotation.DateTimeFormat;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import javax.mail.MessagingException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
 import javax.validation.Valid;
 import java.time.LocalDate;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -134,26 +129,17 @@ public class RideController extends BaseController {
             UserEntity userEntity = userRepository.getUserByUsername(username);
             id = userEntity.getUserId();
         }
+        Date dateToConvert = java.util.Calendar.getInstance().getTime();;
+        LocalDate localDate = dateToConvert.toInstant()
+                .atZone(ZoneId.systemDefault())
+                .toLocalDate();
+        modelAndView.addObject("localDate", localDate);
         modelAndView.addObject("user", userRepository.findById(id).get());
         return modelAndView;
 
     }
 
-    @GetMapping("/edit-ride/{id}")
-    public ModelAndView editRide (@PathVariable Integer id) {
-        ModelAndView modelAndView = new ModelAndView("ride-form");
-        Optional<User> user = getLoggedInUser();
-        Integer userId = null;
-        if (user.isPresent()) {
-            String username = user.get().getUsername();
-            UserEntity userEntity = userRepository.getUserByUsername(username);
-            id = userEntity.getUserId();
-        }
-        modelAndView.addObject("user", userRepository.findById(userId).get());
-        modelAndView.addObject("modelRide", rideRepository.findById(id).get());
-        return modelAndView;
-//       /........????????????????????????????????????????????????????????????????????????????
-    }
+
 
     @GetMapping("/delete-ride/{id}")
     public ModelAndView deleteRide(@PathVariable Integer id) {
@@ -164,7 +150,7 @@ public class RideController extends BaseController {
         emails.add(rideEntity.getUser().getEmail());
         bookingRepository.deleteAll(bookingList);
         rideRepository.deleteById(id);
-//        mailService.sendEmail(emails, mailService.getContent(rideEntity));
+        mailService.sendEmail(emails, mailService.getContent(rideEntity));
 
         return modelAndView;
     }
@@ -186,18 +172,5 @@ public class RideController extends BaseController {
         return modelAndView;
     }
 
-//    @GetMapping("/admin-delete-ride/{id}")
-//    public ModelAndView deleteAdminRide(@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("redirect:/ride-report");
-//        RideEntity rideEntity = rideRepository.findById(id).get();
-//        List<BookingEntity> bookingList = rideEntity.getBookingList();
-//        List<String> emails = bookingList.stream().map(be-> be.getUser().getEmail()).collect(Collectors.toList());
-//        emails.add(rideEntity.getUser().getEmail());
-//        bookingRepository.deleteAll(bookingList);
-//        rideRepository.deleteById(id);
-////        mailService.sendEmail(emails, mailService.getContent(rideEntity));
-//
-//        return modelAndView;
-//    }
 
 }

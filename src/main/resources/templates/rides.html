@@ -86,7 +86,7 @@
             <th scope="col"> Orașul de plecare</th>
             <th scope="col"> Orașul de sosire</th>
             <th scope="col"> Data</th>
-            <th scope="col"></th>
+            <th scope="col" colspan="2">  Acțiune </th>
         </tr>
         </thead>
         <tr th:each=" ride,iter : ${user.getRides()}">
@@ -95,8 +95,11 @@
             <td scope="row" th:text="${ride.getArrivalCity()}"></td>
             <td scope="row" th:text="${ride.getDepartureDate()}"></td>
 
-            <td scope="row">
-                <a style="color: white" th:href="@{'/delete-ride/' + ${ride.getRideId()}}"> Șterge cursa </a>
+            <td scope="row" th:if="${ride.getDepartureDate().isAfter(localDate)}">
+                <a style="color: white"  th:href="@{'/delete-ride/' + ${ride.getRideId()}}"> Șterge cursa </a>
+            </td>
+            <td scope="row" th:if="${ride.getDepartureDate().isBefore(localDate)}">
+                <a  style="color: gainsboro; text-align: center"> Șterge cursa </a>
             </td>
         </tr>
     </table>
@@ -124,22 +127,26 @@
             <th scope="col"> Ora</th>
             <th scope="col"> Locuri rezervate</th>
             <th scope="col"> Contact</th>
-            <th scope="col"></th>
+            <th scope="col" colspan="2">  Acțiune </th>
         </tr>
         </thead>
         <tr th:each=" rideBooked,iter : ${user.getBookingList()}">
             <th scope="row" th:utext="${iter.count}"></th>
             <td scope="row" th:text="${rideBooked.getRide().getDepartureCity()}"></td>
             <td scope="row" th:text="${rideBooked.getRide().getArrivalCity()}"></td>
-            <td scope="row" th:text="${rideBooked.getRide().getDepartureDate()}"></td>
+            <td scope="row" id="departureDate" th:text="${rideBooked.getRide().getDepartureDate()}" ></td>
             <td scope="row" th:text="${rideBooked.getRide().getDepartureTime()}"></td>
             <td scope="row" th:text="${rideBooked.getBookedSeats()}" th:name="bookedSeats"
                 th:value="${rideBooked.getBookedSeats()}"></td>
             <td scope="row"
                 th:text="${rideBooked.getRide().getUser().getName()+ ' ' + rideBooked.getRide().getUser().getPhoneNumber()}"></td>
 
-            <td scope="row">
-                <a style="color: white" th:href="@{'/delete-booking/' + ${rideBooked.getBookingId()}}"> Anulează
+            <td scope="row" th:if="${rideBooked.getRide().getDepartureDate().isAfter(localDate)}">
+                <a   id="button" style="color: white; text-align:center" th:href="@{'/delete-booking/' + ${rideBooked.getBookingId()}}" > Anulează
+                    rezervarea </a>
+            </td>
+            <td scope="row" th:if="${rideBooked.getRide().getDepartureDate().isBefore(localDate)}">
+                <a    style="color: gainsboro; text-align: center" > Anulează
                     rezervarea </a>
             </td>
         </tr>
@@ -157,5 +164,6 @@
     <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Termeni și condiții</a> |
     <a class="mt-5 mb-3 text-muted" style="text-align: center" href="#">Facebook</a>
 </footer>
+
 </body>
 </html>

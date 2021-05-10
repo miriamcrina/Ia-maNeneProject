@@ -97,10 +97,6 @@
         <td scope="row" th:text="${foundCar.getPlateNumber()}"></td>
         <td scope="row" th:text="${foundCar.getUser().getUserId()}"></td>
 
-        <!--        <td scope="row">-->
-        <!--            <a scope="row" th:href="@{'/admin-delete-booking/' + ${foundBooking.getBookingId()}}"> Anulează rezervarea </a> <br>-->
-
-        <!--        </td>-->
     </tr>
 </table>
 <div th:unless="${not #lists.isEmpty(allCars)}" class="text-center">

@@ -102,11 +102,5 @@ public class CarController extends BaseController{
         modelAndView.addObject("allCars", cars);
         return modelAndView;
     }
-//    @GetMapping("/delete-car/{id}")
-//    public ModelAndView deleteCar (@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("redirect:/my-car");
-//        carRepository.deleteById(id);
-//        return modelAndView;
-//    }
 
 }

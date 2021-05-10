@@ -39,8 +39,7 @@ private MailService mailService;
     @PostMapping("/booking-save/{id}")
     public ModelAndView saveBooking(@ModelAttribute("booking")BookingModel bookingModel,
                                     @RequestParam(value = "bookedSeats") Integer bookedSeats,
-                                    @PathVariable Integer id,
-                                    BindingResult bindingResult) {
+                                    @PathVariable Integer id) {
         ModelAndView modelAndView = new ModelAndView("redirect:/booked-ride/{id}");
         Optional<User> user = getLoggedInUser();
         UserEntity userEntity = null;
@@ -64,7 +63,7 @@ private MailService mailService;
         bookingEntity.setRide(rideEntity);
         bookingEntity.setBookedSeats(bookedSeats);
         bookingRepository.save(bookingEntity);
-//        mailService.sendEmail(rideEntity.getUser().getEmail(), mailService.getContentBooking(rideEntity, bookingEntity));
+        mailService.sendEmail(rideEntity.getUser().getEmail(), mailService.getContentBooking(rideEntity, bookingEntity));
         return modelAndView;
 
     }
@@ -76,8 +75,20 @@ private MailService mailService;
         modelAndView.addObject("selectedRide", rideEntity);
         UserEntity userEntity = rideEntity.getUser();
         modelAndView.addObject("selectedDriver", userEntity);
-        List<BookingEntity> list = userEntity.getBookingList();
-        BookingEntity entity = userEntity.getBookingList().get(list.size()-1);
+        Optional<User> user = getLoggedInUser();
+        UserEntity connectedUser = null;
+        if (user.isPresent()) {
+            String username = user.get().getUsername();
+            connectedUser = userRepository.getUserByUsername(username);
+
+        }
+        List<BookingEntity> list = connectedUser.getBookingList();
+        BookingEntity entity;
+        if (list.size() == 0){
+           entity = connectedUser.getBookingList().get(list.size());
+        } else{
+         entity = connectedUser.getBookingList().get(list.size()-1);
+        }
         modelAndView.addObject("booking", entity);
         return modelAndView;
     }
@@ -91,7 +102,7 @@ private MailService mailService;
         rideEntity.setAvailableSeats(newAvailableSeats);
         rideRepository.save(rideEntity);
         bookingRepository.deleteById(id);
-//        mailService.sendEmail(rideEntity.getUser().getEmail(), mailService.getContentBookingCancellation(rideEntity, bookingEntity));
+        mailService.sendEmail(rideEntity.getUser().getEmail(), mailService.getContentBookingCancellation(rideEntity, bookingEntity));
         return modelAndView;
     }
 
@@ -111,16 +122,5 @@ private MailService mailService;
         modelAndView.addObject("allBookings", bookings);
         return modelAndView;
     }
-//    @GetMapping("/admin-delete-booking/{id}")
-//    public ModelAndView deleteAdminBooking (@PathVariable Integer id) {
-//        ModelAndView modelAndView = new ModelAndView("redirect:/booking-report");
-//        BookingEntity bookingEntity = bookingRepository.findById(id).get();
-//        RideEntity rideEntity = bookingEntity.getRide();
-//        Integer newAvailableSeats = rideEntity.getAvailableSeats() + bookingEntity.getBookedSeats();
-//        rideEntity.setAvailableSeats(newAvailableSeats);
-//        rideRepository.save(rideEntity);
-//        bookingRepository.deleteById(id);
-////        mailService.sendEmail(rideEntity.getUser().getEmail(), mailService.getContentBookingCancellation(rideEntity, bookingEntity));
-//        return modelAndView;
-//    }
+
 }

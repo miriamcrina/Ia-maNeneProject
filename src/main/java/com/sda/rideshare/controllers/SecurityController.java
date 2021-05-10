@@ -1,7 +1,7 @@
 package com.sda.rideshare.controllers;
 
 import com.sda.rideshare.entities.AuthorityEntity;
-import com.sda.rideshare.entities.CarEntity;
+
 import com.sda.rideshare.entities.UserEntity;
 import com.sda.rideshare.repositories.AuthorityRepository;
 import com.sda.rideshare.repositories.UserRepository;
@@ -15,7 +15,7 @@ import org.springframework.security.web.WebAttributes;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
-import org.springframework.validation.ObjectError;
+
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -44,7 +44,6 @@ public class SecurityController {
     public ModelAndView registerUser() {
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("user", new UserEntity());
-        modelAndView.addObject("editMode", false);
         return modelAndView;
     }
 

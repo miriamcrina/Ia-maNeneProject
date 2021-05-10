@@ -1,13 +1,10 @@
 package com.sda.rideshare.services;
-
-import com.sda.rideshare.controllers.BaseController;
 import com.sda.rideshare.entities.BookingEntity;
 import com.sda.rideshare.entities.RideEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
-
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
@@ -55,6 +52,7 @@ public class MailService {
         }
         return internetAddresses;
     }
+
     public  String getContent (RideEntity rideEntity) {
         return "Stimate client,<br> " +
                     "Cursa de la "+ rideEntity.getDepartureCity() + " la " + rideEntity.getArrivalCity()+ " din data de "+ rideEntity.getDepartureDate()+ " a fost anulata de catre "+

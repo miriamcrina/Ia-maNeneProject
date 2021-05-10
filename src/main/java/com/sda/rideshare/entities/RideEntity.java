@@ -18,7 +18,6 @@ public class RideEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer rideId;
 
-
     @NotBlank(message = "Campul nu poate fi gol")
     @Pattern(regexp="^\\p{L}+(?: \\p{L}+)*$",message = "Date incorecte")
     @Size(min = 4, max = 15, message = "Camp invalid - text prea lung sau prea scurt")
@@ -54,7 +53,6 @@ public class RideEntity {
     private Integer passengerNumber;
 
     private Integer availableSeats;
-
 
     @ManyToOne
     @JoinColumn(name = "userId")
